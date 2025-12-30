@@ -2,7 +2,6 @@ package model
 
 import (
 	"cmp"
-	"crypto/md5"
 	"encoding/json"
 	"fmt"
 	"iter"
@@ -17,6 +16,7 @@ import (
 	"github.com/navidrome/navidrome/consts"
 	"github.com/navidrome/navidrome/utils"
 	"github.com/navidrome/navidrome/utils/slice"
+	"golang.org/x/crypto/sha3"
 )
 
 type MediaFile struct {
@@ -56,6 +56,9 @@ type MediaFile struct {
 	SampleRate           int      `structs:"sample_rate" json:"sampleRate"`
 	BitDepth             int      `structs:"bit_depth" json:"bitDepth"`
 	Channels             int      `structs:"channels" json:"channels"`
+	EncoderDelay         int      `structs:"encoder_delay" json:"encoderDelay,omitempty"`   // Samples to skip at start (for gapless playback)
+	EncoderPadding       int      `structs:"encoder_padding" json:"encoderPadding,omitempty"` // Samples to skip at end (for gapless playback)
+	TotalSamples         int64    `structs:"total_samples" json:"totalSamples,omitempty"`   // Total sample count (for frame-accurate seeking)
 	Genre                string   `structs:"genre" json:"genre"`
 	Genres               Genres   `structs:"-" json:"genres,omitempty"`
 	SortTitle            string   `structs:"sort_title" json:"sortTitle,omitempty"`
@@ -133,13 +136,14 @@ func (mf MediaFile) String() string {
 }
 
 // Hash returns a hash of the MediaFile based on its tags and audio properties
+// Uses SHA3-256 (post-quantum resistant) for improved security
 func (mf MediaFile) Hash() string {
 	opts := &hashstructure.HashOptions{
 		IgnoreZeroValue: true,
 		ZeroNil:         true,
 	}
 	hash, _ := hashstructure.Hash(mf, opts)
-	sum := md5.New()
+	sum := sha3.New256()
 	sum.Write([]byte(fmt.Sprintf("%d", hash)))
 	sum.Write(mf.Tags.Hash())
 	sum.Write(mf.Participants.Hash())

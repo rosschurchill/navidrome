@@ -86,3 +86,14 @@ export const openSaveQueueDialog = () => ({
 export const closeSaveQueueDialog = () => ({
   type: SAVE_QUEUE_CLOSE,
 })
+
+export const SPLIT_ALBUMS_OPEN = 'SPLIT_ALBUMS_OPEN'
+export const SPLIT_ALBUMS_CLOSE = 'SPLIT_ALBUMS_CLOSE'
+
+export const openSplitAlbumsDialog = () => ({
+  type: SPLIT_ALBUMS_OPEN,
+})
+
+export const closeSplitAlbumsDialog = () => ({
+  type: SPLIT_ALBUMS_CLOSE,
+})

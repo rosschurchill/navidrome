@@ -209,7 +209,7 @@ additional:
   copyright:
     aliases: [ tcop, copyright, cprt, icop ]
   encodedby:
-    aliases: [ tenc, encodedby, ©too, wm/encodedby, ienc ]
+    aliases: [ tenc, encodedby, ©too, wm/encodedby, ienc, isft ]
   encodersettings:
     aliases: [ tsse, encodersettings, ----:com.apple.itunes:encodersettings, wm/encodingsettings ]
   grouping:

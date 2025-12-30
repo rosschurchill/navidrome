@@ -19,6 +19,12 @@ func formatFullText(text ...string) string {
 // The naturalOrder is used to sort results when no full-text filter is applied. It is useful for cases like
 // OpenSubsonic, where an empty search query should return all results in a natural order. Normally the parameter
 // should be `tableName + ".rowid"`, but some repositories (ex: artist) may use a different natural order.
+//
+// Advanced search operators are supported:
+//   - field:value - filter by specific field (e.g., artist:Beatles, year:2020)
+//   - field:"multi word" - quoted values for multi-word matches
+//   - field:min-max - range queries (e.g., year:2010-2020)
+//   - field:n+ - greater than or equal (e.g., rating:4+)
 func (r sqlRepository) doSearch(sq SelectBuilder, q string, offset, size int, results any, naturalOrder string, orderBys ...string) error {
 	q = strings.TrimSpace(q)
 	q = strings.TrimSuffix(q, "*")
@@ -26,9 +32,19 @@ func (r sqlRepository) doSearch(sq SelectBuilder, q string, offset, size int, re
 		return nil
 	}
 
-	filter := fullTextExpr(r.tableName, q)
+	// Parse for advanced search operators (field:value syntax)
+	parsed := ParseAdvancedSearch(r.tableName, q)
+
+	// Apply advanced search filters first
+	sq = ApplyAdvancedSearch(sq, parsed)
+
+	// Apply remaining full-text search on the unparsed portion
+	filter := fullTextExpr(r.tableName, parsed.FullText)
 	if filter != nil {
 		sq = sq.Where(filter)
+		sq = sq.OrderBy(orderBys...)
+	} else if len(parsed.Filters) > 0 {
+		// If we have field filters but no full-text, still apply sorting
 		sq = sq.OrderBy(orderBys...)
 	} else {
 		// This is to speed up the results of `search3?query=""`, for OpenSubsonic

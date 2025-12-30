@@ -2,12 +2,12 @@ package model
 
 import (
 	"cmp"
-	"crypto/md5"
 	"fmt"
 	"slices"
 	"strings"
 
 	"github.com/navidrome/navidrome/utils/slice"
+	"golang.org/x/crypto/sha3"
 )
 
 var (
@@ -193,7 +193,7 @@ func (p Participants) Hash() []byte {
 		flattened = append(flattened, role.String()+":"+strings.Join(ids, "/"))
 	}
 	slices.Sort(flattened)
-	sum := md5.New()
+	sum := sha3.New256()
 	sum.Write([]byte(strings.Join(flattened, "|")))
 	return sum.Sum(nil)
 }

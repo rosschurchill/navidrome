@@ -156,7 +156,8 @@ func (e *provider) populateAlbumInfo(ctx context.Context, album auxAlbum) (auxAl
 	album.ExternalUrl = info.URL
 
 	if info.Description != "" {
-		album.Description = info.Description
+		// Sanitize HTML from external sources to prevent XSS
+		album.Description = str.SanitizeText(info.Description)
 	}
 
 	images, err := e.ag.GetAlbumImages(ctx, albumName, album.AlbumArtist, album.MbzAlbumID)

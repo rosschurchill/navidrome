@@ -205,7 +205,17 @@
         "songCount": "Songs",
         "comment": "Comment",
         "sync": "Auto-import",
-        "path": "Import from"
+        "path": "Import from",
+        "smartPlaylist": "Smart Playlist",
+        "matchRules": "Match",
+        "all": "ALL",
+        "any": "ANY",
+        "ofTheFollowing": "of the following rules:",
+        "sortBy": "Sort by",
+        "order": "Order",
+        "ascending": "Ascending",
+        "descending": "Descending",
+        "limit": "Limit"
       },
       "actions": {
         "selectPlaylist": "Select a playlist:",
@@ -216,7 +226,9 @@
         "makePrivate": "Make Private",
         "searchOrCreate": "Search playlists or type to create new...",
         "pressEnterToCreate": "Press Enter to create new playlist",
-        "removeFromSelection": "Remove from selection"
+        "removeFromSelection": "Remove from selection",
+        "addRule": "Add Rule",
+        "addGroup": "Add Group"
       },
       "message": {
         "duplicate_song": "Add duplicated songs",

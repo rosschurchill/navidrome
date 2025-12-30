@@ -71,6 +71,11 @@ func (md Metadata) ToMediaFile(libID int, folderID string) model.MediaFile {
 	mf.BirthTime = md.BirthTime()
 	mf.UpdatedAt = md.ModTime()
 
+	// Gapless playback properties
+	mf.EncoderDelay = md.AudioProperties().EncoderDelay
+	mf.EncoderPadding = md.AudioProperties().EncoderPadding
+	mf.TotalSamples = md.AudioProperties().TotalSamples
+
 	mf.Participants = md.mapParticipants()
 	mf.Artist = md.mapDisplayArtist()
 	mf.AlbumArtist = md.mapDisplayAlbumArtist(mf)

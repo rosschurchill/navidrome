@@ -390,5 +390,261 @@ func (r *albumRepository) NewInstance() interface{} {
 	return &model.Album{}
 }
 
+// GetSplitAlbums returns albums that have been incorrectly split into multiple entries
+// (same album name, different album artists)
+// splitAlbumRow is a helper struct for scanning split album query results
+type splitAlbumRow struct {
+	Name         string `db:"name"`
+	SplitCount   int    `db:"split_count"`
+	AlbumIDs     string `db:"album_ids"`
+	AlbumArtists string `db:"album_artists"`
+	TotalTracks  int    `db:"total_tracks"`
+}
+
+func (r *albumRepository) GetSplitAlbums() (model.SplitAlbums, error) {
+	// Query to find albums with the same name but different album artists
+	query := `
+		SELECT
+			name,
+			COUNT(*) as split_count,
+			GROUP_CONCAT(id, '|') as album_ids,
+			GROUP_CONCAT(album_artist, '|') as album_artists,
+			SUM(song_count) as total_tracks
+		FROM album
+		GROUP BY name
+		HAVING COUNT(*) > 1
+		ORDER BY split_count DESC
+		LIMIT 100
+	`
+
+	var rows []splitAlbumRow
+	err := r.db.NewQuery(query).WithContext(r.ctx).All(&rows)
+	if err != nil {
+		return nil, fmt.Errorf("querying split albums: %w", err)
+	}
+
+	var result model.SplitAlbums
+	for _, row := range rows {
+		albumIDs := strings.Split(row.AlbumIDs, "|")
+		albumArtists := strings.Split(row.AlbumArtists, "|")
+
+		// Determine if this is likely a compilation (many unique base artists)
+		// or just featured artist splits (same base artist with features)
+		suggestedFix, isCompilation := detectAlbumType(albumArtists)
+
+		// For compilations, use the album name as the album artist
+		// (e.g., "Vocal Deep House Vol.26" instead of "Various Artists")
+		if isCompilation {
+			suggestedFix = row.Name
+		}
+
+		result = append(result, model.SplitAlbum{
+			Name:          row.Name,
+			SplitCount:    row.SplitCount,
+			AlbumIDs:      albumIDs,
+			AlbumArtists:  albumArtists,
+			SuggestedFix:  suggestedFix,
+			TotalTracks:   row.TotalTracks,
+			IsCompilation: isCompilation,
+		})
+	}
+
+	return result, nil
+}
+
+// detectAlbumType analyzes album artists to determine if this is a compilation
+// or if there's a primary artist that should be used
+func detectAlbumType(albumArtists []string) (suggestedFix string, isCompilation bool) {
+	if len(albumArtists) == 0 {
+		return "", false
+	}
+
+	// Extract base artists (before any featuring patterns)
+	featuringPatterns := []string{" & ", " feat. ", " feat ", " ft. ", " ft ", " x ", " vs ", " vs. ", ", "}
+	baseArtistCounts := make(map[string]int)
+
+	for _, artist := range albumArtists {
+		baseArtist := strings.ToLower(strings.TrimSpace(artist))
+		// Strip featuring patterns to get base artist
+		for _, pattern := range featuringPatterns {
+			if idx := strings.Index(strings.ToLower(baseArtist), pattern); idx > 0 {
+				baseArtist = strings.TrimSpace(baseArtist[:idx])
+				break
+			}
+		}
+		baseArtistCounts[baseArtist]++
+	}
+
+	// If there's one dominant base artist, suggest that
+	var maxCount int
+	var dominantArtist string
+	for artist, count := range baseArtistCounts {
+		if count > maxCount {
+			maxCount = count
+			dominantArtist = artist
+		}
+	}
+
+	// If more than 50% of tracks share the same base artist, suggest merging under that artist
+	if maxCount > len(albumArtists)/2 {
+		// Find the original casing from the input
+		for _, artist := range albumArtists {
+			if strings.HasPrefix(strings.ToLower(artist), dominantArtist) {
+				// Use the shortest version (likely the base artist without features)
+				if len(artist) <= len(dominantArtist)+2 || suggestedFix == "" {
+					baseOnly := artist
+					for _, pattern := range featuringPatterns {
+						if idx := strings.Index(strings.ToLower(artist), pattern); idx > 0 {
+							baseOnly = strings.TrimSpace(artist[:idx])
+							break
+						}
+					}
+					if suggestedFix == "" || len(baseOnly) < len(suggestedFix) {
+						suggestedFix = baseOnly
+					}
+				}
+			}
+		}
+		return suggestedFix, false
+	}
+
+	// Many different artists - likely a compilation
+	return "Various Artists", true
+}
+
+// MergeAlbums merges multiple album entries under a single album artist
+// This creates persistent overrides that survive rescans
+func (r *albumRepository) MergeAlbums(albumIDs []string, targetAlbumArtist string) error {
+	if len(albumIDs) < 2 {
+		return fmt.Errorf("need at least 2 albums to merge")
+	}
+	if targetAlbumArtist == "" {
+		return fmt.Errorf("target album artist cannot be empty")
+	}
+
+	// Get album name for the override
+	var albumName string
+	err := r.db.NewQuery("SELECT name FROM album WHERE id = {:id}").
+		Bind(map[string]any{"id": albumIDs[0]}).
+		WithContext(r.ctx).
+		Row(&albumName)
+	if err != nil {
+		return fmt.Errorf("getting album name: %w", err)
+	}
+
+	// Create a persistent override entry
+	overrideID := uuid.NewString()
+	_, err = r.executeSQL(
+		Insert("album_artist_override").
+			Columns("id", "match_pattern", "match_type", "album_artist", "created_at").
+			Values(overrideID, albumName, "album_name", targetAlbumArtist, time.Now()),
+	)
+	if err != nil {
+		return fmt.Errorf("creating album artist override: %w", err)
+	}
+
+	// Use the first album as the target - all media files will be moved here
+	targetAlbumID := albumIDs[0]
+
+	// Update all media files to use the target album artist AND target album ID
+	for _, albumID := range albumIDs {
+		_, err := r.executeSQL(
+			Update("media_file").
+				Set("album_artist", targetAlbumArtist).
+				Set("album_artist_id", ""). // Will be recalculated on next scan
+				Set("album_id", targetAlbumID). // Move all files to target album
+				Where(Eq{"album_id": albumID}),
+		)
+		if err != nil {
+			return fmt.Errorf("updating media files for album %s: %w", albumID, err)
+		}
+	}
+
+	// Update the target album's album_artist
+	_, err = r.executeSQL(
+		Update("album").
+			Set("album_artist", targetAlbumArtist).
+			Set("album_artist_id", "").
+			Where(Eq{"id": targetAlbumID}),
+	)
+	if err != nil {
+		return fmt.Errorf("updating target album: %w", err)
+	}
+
+	// Delete the other album entries (they're now orphaned)
+	for _, albumID := range albumIDs[1:] {
+		_, err := r.executeSQL(
+			Delete("album").Where(Eq{"id": albumID}),
+		)
+		if err != nil {
+			log.Warn(r.ctx, "Error deleting orphaned album", "albumID", albumID, err)
+		}
+	}
+
+	// Touch the target album to refresh counts
+	err = r.Touch(targetAlbumID)
+	if err != nil {
+		log.Warn(r.ctx, "Error touching target album", "albumID", targetAlbumID, err)
+	}
+
+	log.Info(r.ctx, "Merged albums with override", "albumName", albumName, "albumCount", len(albumIDs), "targetArtist", targetAlbumArtist, "targetAlbumID", targetAlbumID)
+	return nil
+}
+
+// ApplyAlbumArtistOverrides applies user-defined album artist corrections
+// This is called after scanning to ensure overrides persist
+func (r *albumRepository) ApplyAlbumArtistOverrides() (int64, error) {
+	// Query all overrides
+	type override struct {
+		MatchPattern string `db:"match_pattern"`
+		MatchType    string `db:"match_type"`
+		AlbumArtist  string `db:"album_artist"`
+	}
+
+	query := "SELECT match_pattern, match_type, album_artist FROM album_artist_override"
+	var overrides []override
+	err := r.db.NewQuery(query).WithContext(r.ctx).All(&overrides)
+	if err != nil {
+		// Table might not exist yet - that's okay
+		return 0, nil
+	}
+
+	if len(overrides) == 0 {
+		return 0, nil
+	}
+
+	var totalCount int64
+	for _, o := range overrides {
+		if o.MatchType == "album_name" {
+			// Update all media files with matching album name to use the override artist
+			updateQuery := `
+				UPDATE media_file
+				SET album_artist = {:album_artist}
+				WHERE album = {:album_name} AND album_artist != {:album_artist}
+			`
+			result, err := r.db.NewQuery(updateQuery).
+				Bind(map[string]any{
+					"album_artist": o.AlbumArtist,
+					"album_name":   o.MatchPattern,
+				}).
+				WithContext(r.ctx).
+				Execute()
+			if err != nil {
+				log.Warn(r.ctx, "Error applying album artist override", "albumName", o.MatchPattern, err)
+				continue
+			}
+			if result != nil {
+				rowsAffected, _ := result.RowsAffected()
+				if rowsAffected > 0 {
+					totalCount += rowsAffected
+					log.Debug(r.ctx, "Applied album artist override", "albumName", o.MatchPattern, "albumArtist", o.AlbumArtist, "filesUpdated", rowsAffected)
+				}
+			}
+		}
+	}
+
+	return totalCount, nil
+}
+
 var _ model.AlbumRepository = (*albumRepository)(nil)
 var _ model.ResourceRepository = (*albumRepository)(nil)

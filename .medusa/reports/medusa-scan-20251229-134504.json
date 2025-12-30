@@ -1,0 +1,2664 @@
+{
+  "timestamp": "2025-12-29T13:45:04.244336",
+  "medusa_version": "0.11.1",
+  "scan_summary": {
+    "total_issues": 40,
+    "files_scanned": 1052,
+    "lines_scanned": 118524,
+    "security_score": 0,
+    "risk_level": "CRITICAL"
+  },
+  "severity_breakdown": {
+    "CRITICAL": 28,
+    "HIGH": 3,
+    "MEDIUM": 4,
+    "LOW": 0,
+    "UNDEFINED": 0
+  },
+  "findings": [
+    {
+      "scanner": "dockermcpscanner",
+      "file": "/home/ross/Documents/general/navidrome/Dockerfile",
+      "line": 80,
+      "severity": "HIGH",
+      "confidence": "HIGH",
+      "issue": "Root home directory mounted",
+      "cwe": null,
+      "code": null,
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/adapters/taglib/taglib_wrapper.go",
+      "line": 46,
+      "severity": "HIGH",
+      "confidence": "HIGH",
+      "issue": "Using the unsafe package in Go gives you low-level memory management and many of the strengths of the C language, but also steps around the type safety of Go and can lead to buffer overflows and possible arbitrary code execution by an attacker. Only use this package if you absolutely know what you're doing.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/adapters/taglib/taglib_wrapper.go",
+      "line": 124,
+      "severity": "HIGH",
+      "confidence": "HIGH",
+      "issue": "Using the unsafe package in Go gives you low-level memory management and many of the strengths of the C language, but also steps around the type safety of Go and can lead to buffer overflows and possible arbitrary code execution by an attacker. Only use this package if you absolutely know what you're doing.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "dockercomposescanner",
+      "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-caddy.yml",
+      "line": 17,
+      "severity": "INFO",
+      "confidence": "HIGH",
+      "issue": "Review exposed ports for security",
+      "cwe": null,
+      "code": null,
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "dockercomposescanner",
+      "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-caddy.yml",
+      "line": 23,
+      "severity": "MEDIUM",
+      "confidence": "HIGH",
+      "issue": "Using 'latest' tag or no tag - use specific versions",
+      "cwe": null,
+      "code": null,
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "dockercomposescanner",
+      "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-caddy.yml",
+      "line": 27,
+      "severity": "INFO",
+      "confidence": "HIGH",
+      "issue": "Review exposed ports for security",
+      "cwe": null,
+      "code": null,
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "dockercomposescanner",
+      "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-traefik.yml",
+      "line": 23,
+      "severity": "INFO",
+      "confidence": "HIGH",
+      "issue": "Review exposed ports for security",
+      "cwe": null,
+      "code": null,
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "dockercomposescanner",
+      "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-traefik.yml",
+      "line": 31,
+      "severity": "MEDIUM",
+      "confidence": "HIGH",
+      "issue": "Using 'latest' tag or no tag - use specific versions",
+      "cwe": null,
+      "code": null,
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "dockercomposescanner",
+      "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-traefik.yml",
+      "line": 35,
+      "severity": "INFO",
+      "confidence": "HIGH",
+      "issue": "Review exposed ports for security",
+      "cwe": null,
+      "code": null,
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "dockercomposescanner",
+      "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose.yml",
+      "line": 10,
+      "severity": "MEDIUM",
+      "confidence": "HIGH",
+      "issue": "Using 'latest' tag or no tag - use specific versions",
+      "cwe": null,
+      "code": null,
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "dockercomposescanner",
+      "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose.yml",
+      "line": 14,
+      "severity": "INFO",
+      "confidence": "HIGH",
+      "issue": "Review exposed ports for security",
+      "cwe": null,
+      "code": null,
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/core/agents/lastfm/client.go",
+      "line": 231,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/core/agents/lastfm/client_test.go",
+      "line": 169,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/core/artwork/reader_album.go",
+      "line": 62,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/core/artwork/reader_artist.go",
+      "line": 82,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/core/playback/queue.go",
+      "line": 5,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Do not use `math/rand`. Use `crypto/rand` instead.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/db/backup_test.go",
+      "line": 6,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Do not use `math/rand`. Use `crypto/rand` instead.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/model/id/id.go",
+      "line": 22,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/model/mediafile.go",
+      "line": 142,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/model/metadata/legacy_ids.go",
+      "line": 22,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/model/metadata/legacy_ids.go",
+      "line": 36,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/model/participants.go",
+      "line": 196,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/model/tag.go",
+      "line": 120,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "agentmemoryscanner",
+      "file": "/home/ross/Documents/general/navidrome/persistence/persistence_suite_test.go",
+      "line": 212,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Memory accessible to all",
+      "cwe": null,
+      "code": null,
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/persistence/sql_base_repository.go",
+      "line": 227,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/plugins/runtime.go",
+      "line": 376,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/plugins/runtime.go",
+      "line": 593,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "dockermcpscanner",
+      "file": "/home/ross/Documents/general/navidrome/release/wix/msitools.dockerfile",
+      "line": 1,
+      "severity": "MEDIUM",
+      "confidence": "HIGH",
+      "issue": "Image without version tag",
+      "cwe": null,
+      "code": null,
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/scanner/folder_entry.go",
+      "line": 85,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/server/auth.go",
+      "line": 91,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/server/auth_test.go",
+      "line": 149,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/server/subsonic/middlewares.go",
+      "line": 171,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/server/subsonic/middlewares_test.go",
+      "line": 189,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/server/subsonic/middlewares_test.go",
+      "line": 210,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/ui/src/album/AlbumDetails.jsx",
+      "line": 354,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Detection of dangerouslySetInnerHTML from non-constant definition. This can inadvertently expose users to cross-site scripting (XSS) attacks if this comes from user-provided input. If you have to use dangerouslySetInnerHTML, consider using a sanitization library such as DOMPurify to sanitize your HTML.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/ui/src/album/AlbumDetails.jsx",
+      "line": 374,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Detection of dangerouslySetInnerHTML from non-constant definition. This can inadvertently expose users to cross-site scripting (XSS) attacks if this comes from user-provided input. If you have to use dangerouslySetInnerHTML, consider using a sanitization library such as DOMPurify to sanitize your HTML.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/ui/src/artist/DesktopArtistDetails.jsx",
+      "line": 175,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Detection of dangerouslySetInnerHTML from non-constant definition. This can inadvertently expose users to cross-site scripting (XSS) attacks if this comes from user-provided input. If you have to use dangerouslySetInnerHTML, consider using a sanitization library such as DOMPurify to sanitize your HTML.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/ui/src/artist/MobileArtistDetails.jsx",
+      "line": 171,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Detection of dangerouslySetInnerHTML from non-constant definition. This can inadvertently expose users to cross-site scripting (XSS) attacks if this comes from user-provided input. If you have to use dangerouslySetInnerHTML, consider using a sanitization library such as DOMPurify to sanitize your HTML.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/ui/src/common/Linkify.jsx",
+      "line": 59,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Detection of dangerouslySetInnerHTML from non-constant definition. This can inadvertently expose users to cross-site scripting (XSS) attacks if this comes from user-provided input. If you have to use dangerouslySetInnerHTML, consider using a sanitization library such as DOMPurify to sanitize your HTML.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    },
+    {
+      "scanner": "semgrepscanner",
+      "file": "/home/ross/Documents/general/navidrome/utils/cache/spread_fs.go",
+      "line": 108,
+      "severity": "CRITICAL",
+      "confidence": "HIGH",
+      "issue": "Detected SHA1 hash algorithm which is considered insecure. SHA1 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+      "cwe": "requires login",
+      "code": "requires login",
+      "fp_analysis": {
+        "is_likely_fp": false,
+        "confidence": 0.0,
+        "reason": null,
+        "explanation": ""
+      }
+    }
+  ],
+  "aggregations": {
+    "by_severity": {
+      "HIGH": [
+        {
+          "scanner": "dockermcpscanner",
+          "file": "/home/ross/Documents/general/navidrome/Dockerfile",
+          "line": 80,
+          "severity": "HIGH",
+          "confidence": "HIGH",
+          "issue": "Root home directory mounted",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/adapters/taglib/taglib_wrapper.go",
+          "line": 46,
+          "severity": "HIGH",
+          "confidence": "HIGH",
+          "issue": "Using the unsafe package in Go gives you low-level memory management and many of the strengths of the C language, but also steps around the type safety of Go and can lead to buffer overflows and possible arbitrary code execution by an attacker. Only use this package if you absolutely know what you're doing.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/adapters/taglib/taglib_wrapper.go",
+          "line": 124,
+          "severity": "HIGH",
+          "confidence": "HIGH",
+          "issue": "Using the unsafe package in Go gives you low-level memory management and many of the strengths of the C language, but also steps around the type safety of Go and can lead to buffer overflows and possible arbitrary code execution by an attacker. Only use this package if you absolutely know what you're doing.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "INFO": [
+        {
+          "scanner": "dockercomposescanner",
+          "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-caddy.yml",
+          "line": 17,
+          "severity": "INFO",
+          "confidence": "HIGH",
+          "issue": "Review exposed ports for security",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "dockercomposescanner",
+          "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-caddy.yml",
+          "line": 27,
+          "severity": "INFO",
+          "confidence": "HIGH",
+          "issue": "Review exposed ports for security",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "dockercomposescanner",
+          "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-traefik.yml",
+          "line": 23,
+          "severity": "INFO",
+          "confidence": "HIGH",
+          "issue": "Review exposed ports for security",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "dockercomposescanner",
+          "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-traefik.yml",
+          "line": 35,
+          "severity": "INFO",
+          "confidence": "HIGH",
+          "issue": "Review exposed ports for security",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "dockercomposescanner",
+          "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose.yml",
+          "line": 14,
+          "severity": "INFO",
+          "confidence": "HIGH",
+          "issue": "Review exposed ports for security",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "MEDIUM": [
+        {
+          "scanner": "dockercomposescanner",
+          "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-caddy.yml",
+          "line": 23,
+          "severity": "MEDIUM",
+          "confidence": "HIGH",
+          "issue": "Using 'latest' tag or no tag - use specific versions",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "dockercomposescanner",
+          "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-traefik.yml",
+          "line": 31,
+          "severity": "MEDIUM",
+          "confidence": "HIGH",
+          "issue": "Using 'latest' tag or no tag - use specific versions",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "dockercomposescanner",
+          "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose.yml",
+          "line": 10,
+          "severity": "MEDIUM",
+          "confidence": "HIGH",
+          "issue": "Using 'latest' tag or no tag - use specific versions",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "dockermcpscanner",
+          "file": "/home/ross/Documents/general/navidrome/release/wix/msitools.dockerfile",
+          "line": 1,
+          "severity": "MEDIUM",
+          "confidence": "HIGH",
+          "issue": "Image without version tag",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "CRITICAL": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/core/agents/lastfm/client.go",
+          "line": 231,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/core/agents/lastfm/client_test.go",
+          "line": 169,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/core/artwork/reader_album.go",
+          "line": 62,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/core/artwork/reader_artist.go",
+          "line": 82,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/core/playback/queue.go",
+          "line": 5,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Do not use `math/rand`. Use `crypto/rand` instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/db/backup_test.go",
+          "line": 6,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Do not use `math/rand`. Use `crypto/rand` instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/model/id/id.go",
+          "line": 22,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/model/mediafile.go",
+          "line": 142,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/model/metadata/legacy_ids.go",
+          "line": 22,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/model/metadata/legacy_ids.go",
+          "line": 36,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/model/participants.go",
+          "line": 196,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/model/tag.go",
+          "line": 120,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "agentmemoryscanner",
+          "file": "/home/ross/Documents/general/navidrome/persistence/persistence_suite_test.go",
+          "line": 212,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Memory accessible to all",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/persistence/sql_base_repository.go",
+          "line": 227,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/plugins/runtime.go",
+          "line": 376,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/plugins/runtime.go",
+          "line": 593,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/scanner/folder_entry.go",
+          "line": 85,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/server/auth.go",
+          "line": 91,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/server/auth_test.go",
+          "line": 149,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/server/subsonic/middlewares.go",
+          "line": 171,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/server/subsonic/middlewares_test.go",
+          "line": 189,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/server/subsonic/middlewares_test.go",
+          "line": 210,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/ui/src/album/AlbumDetails.jsx",
+          "line": 354,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detection of dangerouslySetInnerHTML from non-constant definition. This can inadvertently expose users to cross-site scripting (XSS) attacks if this comes from user-provided input. If you have to use dangerouslySetInnerHTML, consider using a sanitization library such as DOMPurify to sanitize your HTML.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/ui/src/album/AlbumDetails.jsx",
+          "line": 374,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detection of dangerouslySetInnerHTML from non-constant definition. This can inadvertently expose users to cross-site scripting (XSS) attacks if this comes from user-provided input. If you have to use dangerouslySetInnerHTML, consider using a sanitization library such as DOMPurify to sanitize your HTML.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/ui/src/artist/DesktopArtistDetails.jsx",
+          "line": 175,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detection of dangerouslySetInnerHTML from non-constant definition. This can inadvertently expose users to cross-site scripting (XSS) attacks if this comes from user-provided input. If you have to use dangerouslySetInnerHTML, consider using a sanitization library such as DOMPurify to sanitize your HTML.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/ui/src/artist/MobileArtistDetails.jsx",
+          "line": 171,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detection of dangerouslySetInnerHTML from non-constant definition. This can inadvertently expose users to cross-site scripting (XSS) attacks if this comes from user-provided input. If you have to use dangerouslySetInnerHTML, consider using a sanitization library such as DOMPurify to sanitize your HTML.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/ui/src/common/Linkify.jsx",
+          "line": 59,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detection of dangerouslySetInnerHTML from non-constant definition. This can inadvertently expose users to cross-site scripting (XSS) attacks if this comes from user-provided input. If you have to use dangerouslySetInnerHTML, consider using a sanitization library such as DOMPurify to sanitize your HTML.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/utils/cache/spread_fs.go",
+          "line": 108,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected SHA1 hash algorithm which is considered insecure. SHA1 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ]
+    },
+    "by_file": {
+      "/home/ross/Documents/general/navidrome/Dockerfile": [
+        {
+          "scanner": "dockermcpscanner",
+          "file": "/home/ross/Documents/general/navidrome/Dockerfile",
+          "line": 80,
+          "severity": "HIGH",
+          "confidence": "HIGH",
+          "issue": "Root home directory mounted",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/adapters/taglib/taglib_wrapper.go": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/adapters/taglib/taglib_wrapper.go",
+          "line": 46,
+          "severity": "HIGH",
+          "confidence": "HIGH",
+          "issue": "Using the unsafe package in Go gives you low-level memory management and many of the strengths of the C language, but also steps around the type safety of Go and can lead to buffer overflows and possible arbitrary code execution by an attacker. Only use this package if you absolutely know what you're doing.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/adapters/taglib/taglib_wrapper.go",
+          "line": 124,
+          "severity": "HIGH",
+          "confidence": "HIGH",
+          "issue": "Using the unsafe package in Go gives you low-level memory management and many of the strengths of the C language, but also steps around the type safety of Go and can lead to buffer overflows and possible arbitrary code execution by an attacker. Only use this package if you absolutely know what you're doing.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-caddy.yml": [
+        {
+          "scanner": "dockercomposescanner",
+          "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-caddy.yml",
+          "line": 17,
+          "severity": "INFO",
+          "confidence": "HIGH",
+          "issue": "Review exposed ports for security",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "dockercomposescanner",
+          "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-caddy.yml",
+          "line": 23,
+          "severity": "MEDIUM",
+          "confidence": "HIGH",
+          "issue": "Using 'latest' tag or no tag - use specific versions",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "dockercomposescanner",
+          "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-caddy.yml",
+          "line": 27,
+          "severity": "INFO",
+          "confidence": "HIGH",
+          "issue": "Review exposed ports for security",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-traefik.yml": [
+        {
+          "scanner": "dockercomposescanner",
+          "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-traefik.yml",
+          "line": 23,
+          "severity": "INFO",
+          "confidence": "HIGH",
+          "issue": "Review exposed ports for security",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "dockercomposescanner",
+          "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-traefik.yml",
+          "line": 31,
+          "severity": "MEDIUM",
+          "confidence": "HIGH",
+          "issue": "Using 'latest' tag or no tag - use specific versions",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "dockercomposescanner",
+          "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-traefik.yml",
+          "line": 35,
+          "severity": "INFO",
+          "confidence": "HIGH",
+          "issue": "Review exposed ports for security",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose.yml": [
+        {
+          "scanner": "dockercomposescanner",
+          "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose.yml",
+          "line": 10,
+          "severity": "MEDIUM",
+          "confidence": "HIGH",
+          "issue": "Using 'latest' tag or no tag - use specific versions",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "dockercomposescanner",
+          "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose.yml",
+          "line": 14,
+          "severity": "INFO",
+          "confidence": "HIGH",
+          "issue": "Review exposed ports for security",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/core/agents/lastfm/client.go": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/core/agents/lastfm/client.go",
+          "line": 231,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/core/agents/lastfm/client_test.go": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/core/agents/lastfm/client_test.go",
+          "line": 169,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/core/artwork/reader_album.go": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/core/artwork/reader_album.go",
+          "line": 62,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/core/artwork/reader_artist.go": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/core/artwork/reader_artist.go",
+          "line": 82,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/core/playback/queue.go": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/core/playback/queue.go",
+          "line": 5,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Do not use `math/rand`. Use `crypto/rand` instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/db/backup_test.go": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/db/backup_test.go",
+          "line": 6,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Do not use `math/rand`. Use `crypto/rand` instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/model/id/id.go": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/model/id/id.go",
+          "line": 22,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/model/mediafile.go": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/model/mediafile.go",
+          "line": 142,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/model/metadata/legacy_ids.go": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/model/metadata/legacy_ids.go",
+          "line": 22,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/model/metadata/legacy_ids.go",
+          "line": 36,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/model/participants.go": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/model/participants.go",
+          "line": 196,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/model/tag.go": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/model/tag.go",
+          "line": 120,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/persistence/persistence_suite_test.go": [
+        {
+          "scanner": "agentmemoryscanner",
+          "file": "/home/ross/Documents/general/navidrome/persistence/persistence_suite_test.go",
+          "line": 212,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Memory accessible to all",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/persistence/sql_base_repository.go": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/persistence/sql_base_repository.go",
+          "line": 227,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/plugins/runtime.go": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/plugins/runtime.go",
+          "line": 376,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/plugins/runtime.go",
+          "line": 593,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/release/wix/msitools.dockerfile": [
+        {
+          "scanner": "dockermcpscanner",
+          "file": "/home/ross/Documents/general/navidrome/release/wix/msitools.dockerfile",
+          "line": 1,
+          "severity": "MEDIUM",
+          "confidence": "HIGH",
+          "issue": "Image without version tag",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/scanner/folder_entry.go": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/scanner/folder_entry.go",
+          "line": 85,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/server/auth.go": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/server/auth.go",
+          "line": 91,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/server/auth_test.go": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/server/auth_test.go",
+          "line": 149,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/server/subsonic/middlewares.go": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/server/subsonic/middlewares.go",
+          "line": 171,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/server/subsonic/middlewares_test.go": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/server/subsonic/middlewares_test.go",
+          "line": 189,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/server/subsonic/middlewares_test.go",
+          "line": 210,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/ui/src/album/AlbumDetails.jsx": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/ui/src/album/AlbumDetails.jsx",
+          "line": 354,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detection of dangerouslySetInnerHTML from non-constant definition. This can inadvertently expose users to cross-site scripting (XSS) attacks if this comes from user-provided input. If you have to use dangerouslySetInnerHTML, consider using a sanitization library such as DOMPurify to sanitize your HTML.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/ui/src/album/AlbumDetails.jsx",
+          "line": 374,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detection of dangerouslySetInnerHTML from non-constant definition. This can inadvertently expose users to cross-site scripting (XSS) attacks if this comes from user-provided input. If you have to use dangerouslySetInnerHTML, consider using a sanitization library such as DOMPurify to sanitize your HTML.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/ui/src/artist/DesktopArtistDetails.jsx": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/ui/src/artist/DesktopArtistDetails.jsx",
+          "line": 175,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detection of dangerouslySetInnerHTML from non-constant definition. This can inadvertently expose users to cross-site scripting (XSS) attacks if this comes from user-provided input. If you have to use dangerouslySetInnerHTML, consider using a sanitization library such as DOMPurify to sanitize your HTML.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/ui/src/artist/MobileArtistDetails.jsx": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/ui/src/artist/MobileArtistDetails.jsx",
+          "line": 171,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detection of dangerouslySetInnerHTML from non-constant definition. This can inadvertently expose users to cross-site scripting (XSS) attacks if this comes from user-provided input. If you have to use dangerouslySetInnerHTML, consider using a sanitization library such as DOMPurify to sanitize your HTML.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/ui/src/common/Linkify.jsx": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/ui/src/common/Linkify.jsx",
+          "line": 59,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detection of dangerouslySetInnerHTML from non-constant definition. This can inadvertently expose users to cross-site scripting (XSS) attacks if this comes from user-provided input. If you have to use dangerouslySetInnerHTML, consider using a sanitization library such as DOMPurify to sanitize your HTML.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "/home/ross/Documents/general/navidrome/utils/cache/spread_fs.go": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/utils/cache/spread_fs.go",
+          "line": 108,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected SHA1 hash algorithm which is considered insecure. SHA1 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ]
+    },
+    "by_scanner": {
+      "dockermcpscanner": [
+        {
+          "scanner": "dockermcpscanner",
+          "file": "/home/ross/Documents/general/navidrome/Dockerfile",
+          "line": 80,
+          "severity": "HIGH",
+          "confidence": "HIGH",
+          "issue": "Root home directory mounted",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "dockermcpscanner",
+          "file": "/home/ross/Documents/general/navidrome/release/wix/msitools.dockerfile",
+          "line": 1,
+          "severity": "MEDIUM",
+          "confidence": "HIGH",
+          "issue": "Image without version tag",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "semgrepscanner": [
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/adapters/taglib/taglib_wrapper.go",
+          "line": 46,
+          "severity": "HIGH",
+          "confidence": "HIGH",
+          "issue": "Using the unsafe package in Go gives you low-level memory management and many of the strengths of the C language, but also steps around the type safety of Go and can lead to buffer overflows and possible arbitrary code execution by an attacker. Only use this package if you absolutely know what you're doing.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/adapters/taglib/taglib_wrapper.go",
+          "line": 124,
+          "severity": "HIGH",
+          "confidence": "HIGH",
+          "issue": "Using the unsafe package in Go gives you low-level memory management and many of the strengths of the C language, but also steps around the type safety of Go and can lead to buffer overflows and possible arbitrary code execution by an attacker. Only use this package if you absolutely know what you're doing.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/core/agents/lastfm/client.go",
+          "line": 231,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/core/agents/lastfm/client_test.go",
+          "line": 169,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/core/artwork/reader_album.go",
+          "line": 62,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/core/artwork/reader_artist.go",
+          "line": 82,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/core/playback/queue.go",
+          "line": 5,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Do not use `math/rand`. Use `crypto/rand` instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/db/backup_test.go",
+          "line": 6,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Do not use `math/rand`. Use `crypto/rand` instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/model/id/id.go",
+          "line": 22,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/model/mediafile.go",
+          "line": 142,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/model/metadata/legacy_ids.go",
+          "line": 22,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/model/metadata/legacy_ids.go",
+          "line": 36,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/model/participants.go",
+          "line": 196,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/model/tag.go",
+          "line": 120,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/persistence/sql_base_repository.go",
+          "line": 227,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/plugins/runtime.go",
+          "line": 376,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/plugins/runtime.go",
+          "line": 593,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/scanner/folder_entry.go",
+          "line": 85,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/server/auth.go",
+          "line": 91,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/server/auth_test.go",
+          "line": 149,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/server/subsonic/middlewares.go",
+          "line": 171,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/server/subsonic/middlewares_test.go",
+          "line": 189,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/server/subsonic/middlewares_test.go",
+          "line": 210,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/ui/src/album/AlbumDetails.jsx",
+          "line": 354,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detection of dangerouslySetInnerHTML from non-constant definition. This can inadvertently expose users to cross-site scripting (XSS) attacks if this comes from user-provided input. If you have to use dangerouslySetInnerHTML, consider using a sanitization library such as DOMPurify to sanitize your HTML.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/ui/src/album/AlbumDetails.jsx",
+          "line": 374,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detection of dangerouslySetInnerHTML from non-constant definition. This can inadvertently expose users to cross-site scripting (XSS) attacks if this comes from user-provided input. If you have to use dangerouslySetInnerHTML, consider using a sanitization library such as DOMPurify to sanitize your HTML.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/ui/src/artist/DesktopArtistDetails.jsx",
+          "line": 175,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detection of dangerouslySetInnerHTML from non-constant definition. This can inadvertently expose users to cross-site scripting (XSS) attacks if this comes from user-provided input. If you have to use dangerouslySetInnerHTML, consider using a sanitization library such as DOMPurify to sanitize your HTML.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/ui/src/artist/MobileArtistDetails.jsx",
+          "line": 171,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detection of dangerouslySetInnerHTML from non-constant definition. This can inadvertently expose users to cross-site scripting (XSS) attacks if this comes from user-provided input. If you have to use dangerouslySetInnerHTML, consider using a sanitization library such as DOMPurify to sanitize your HTML.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/ui/src/common/Linkify.jsx",
+          "line": 59,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detection of dangerouslySetInnerHTML from non-constant definition. This can inadvertently expose users to cross-site scripting (XSS) attacks if this comes from user-provided input. If you have to use dangerouslySetInnerHTML, consider using a sanitization library such as DOMPurify to sanitize your HTML.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "semgrepscanner",
+          "file": "/home/ross/Documents/general/navidrome/utils/cache/spread_fs.go",
+          "line": 108,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Detected SHA1 hash algorithm which is considered insecure. SHA1 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+          "cwe": "requires login",
+          "code": "requires login",
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "dockercomposescanner": [
+        {
+          "scanner": "dockercomposescanner",
+          "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-caddy.yml",
+          "line": 17,
+          "severity": "INFO",
+          "confidence": "HIGH",
+          "issue": "Review exposed ports for security",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "dockercomposescanner",
+          "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-caddy.yml",
+          "line": 23,
+          "severity": "MEDIUM",
+          "confidence": "HIGH",
+          "issue": "Using 'latest' tag or no tag - use specific versions",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "dockercomposescanner",
+          "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-caddy.yml",
+          "line": 27,
+          "severity": "INFO",
+          "confidence": "HIGH",
+          "issue": "Review exposed ports for security",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "dockercomposescanner",
+          "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-traefik.yml",
+          "line": 23,
+          "severity": "INFO",
+          "confidence": "HIGH",
+          "issue": "Review exposed ports for security",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "dockercomposescanner",
+          "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-traefik.yml",
+          "line": 31,
+          "severity": "MEDIUM",
+          "confidence": "HIGH",
+          "issue": "Using 'latest' tag or no tag - use specific versions",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "dockercomposescanner",
+          "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose-traefik.yml",
+          "line": 35,
+          "severity": "INFO",
+          "confidence": "HIGH",
+          "issue": "Review exposed ports for security",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "dockercomposescanner",
+          "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose.yml",
+          "line": 10,
+          "severity": "MEDIUM",
+          "confidence": "HIGH",
+          "issue": "Using 'latest' tag or no tag - use specific versions",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        },
+        {
+          "scanner": "dockercomposescanner",
+          "file": "/home/ross/Documents/general/navidrome/contrib/docker-compose/docker-compose.yml",
+          "line": 14,
+          "severity": "INFO",
+          "confidence": "HIGH",
+          "issue": "Review exposed ports for security",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ],
+      "agentmemoryscanner": [
+        {
+          "scanner": "agentmemoryscanner",
+          "file": "/home/ross/Documents/general/navidrome/persistence/persistence_suite_test.go",
+          "line": 212,
+          "severity": "CRITICAL",
+          "confidence": "HIGH",
+          "issue": "Memory accessible to all",
+          "cwe": null,
+          "code": null,
+          "fp_analysis": {
+            "is_likely_fp": false,
+            "confidence": 0.0,
+            "reason": null,
+            "explanation": ""
+          }
+        }
+      ]
+    }
+  }
+}

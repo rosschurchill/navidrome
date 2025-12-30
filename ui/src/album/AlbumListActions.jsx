@@ -4,17 +4,20 @@ import {
   sanitizeListRestProps,
   TopToolbar,
   useTranslate,
+  usePermissions,
 } from 'react-admin'
 import {
   ButtonGroup,
   useMediaQuery,
   Typography,
   makeStyles,
+  Tooltip,
 } from '@material-ui/core'
 import ViewHeadlineIcon from '@material-ui/icons/ViewHeadline'
 import ViewModuleIcon from '@material-ui/icons/ViewModule'
+import BrokenImageIcon from '@material-ui/icons/BrokenImage'
 import { useDispatch, useSelector } from 'react-redux'
-import { albumViewGrid, albumViewTable } from '../actions'
+import { albumViewGrid, albumViewTable, openSplitAlbumsDialog } from '../actions'
 import { ToggleFieldsMenu } from '../common'
 
 const useStyles = makeStyles({
@@ -89,6 +92,14 @@ const AlbumListActions = ({
 }) => {
   const isNotSmall = useMediaQuery((theme) => theme.breakpoints.up('sm'))
   const albumView = useSelector((state) => state.albumView)
+  const dispatch = useDispatch()
+  const translate = useTranslate()
+  const { permissions } = usePermissions()
+
+  const handleOpenSplitAlbums = () => {
+    dispatch(openSplitAlbumsDialog())
+  }
+
   return (
     <TopToolbar className={className} {...sanitizeListRestProps(rest)}>
       {filters &&
@@ -99,6 +110,16 @@ const AlbumListActions = ({
           filterValues,
           context: 'button',
         })}
+      {permissions === 'admin' && (
+        <Tooltip title={translate('resources.album.splitAlbums.title', { _: 'Fix Split Albums' })}>
+          <Button
+            onClick={handleOpenSplitAlbums}
+            label={isNotSmall ? translate('resources.album.splitAlbums.button', { _: 'Fix Split Albums' }) : ''}
+          >
+            <BrokenImageIcon />
+          </Button>
+        </Tooltip>
+      )}
       {isNotSmall ? (
         <ToggleFieldsMenu
           resource="album"

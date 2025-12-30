@@ -84,6 +84,9 @@ func robotsTXT(fs fs.FS) func(http.Handler) http.Handler {
 	}
 }
 
+// corsHandler configures Cross-Origin Resource Sharing.
+// Note: Permissive CORS ("*") is required for Subsonic API compatibility with mobile/desktop clients.
+// AllowCredentials is explicitly false to prevent credential theft when using wildcard origins.
 func corsHandler() func(http.Handler) http.Handler {
 	return cors.Handler(cors.Options{
 		AllowedOrigins: []string{"*"},
@@ -108,7 +111,8 @@ func secureMiddleware() func(http.Handler) http.Handler {
 		ReferrerPolicy:          "same-origin",
 		PermissionsPolicy:       "autoplay=(), camera=(), microphone=(), usb=()",
 		CustomFrameOptionsValue: conf.Server.HTTPHeaders.FrameOptions,
-		//ContentSecurityPolicy: "script-src 'self' 'unsafe-inline'",
+		// Content Security Policy - allow inline scripts for React app, restrict other sources
+		ContentSecurityPolicy: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' blob:; connect-src 'self' ws: wss:; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self';",
 	})
 	return sec.Handler
 }

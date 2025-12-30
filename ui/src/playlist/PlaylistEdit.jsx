@@ -1,3 +1,4 @@
+import React, { useState, useCallback } from 'react'
 import {
   Edit,
   FormDataConsumer,
@@ -12,6 +13,31 @@ import {
   SelectInput,
 } from 'react-admin'
 import { isWritable, Title } from '../common'
+import SmartPlaylistRulesBuilder from './SmartPlaylistRulesBuilder'
+
+// Custom input wrapper for SmartPlaylistRulesBuilder in edit mode
+const SmartPlaylistInput = ({ record, source }) => {
+  const [rules, setRules] = useState(record?.[source] || null)
+  const isSmartPlaylist = record?.rules !== null && record?.rules !== undefined
+
+  const handleChange = useCallback((newRules) => {
+    setRules(newRules)
+    if (record) {
+      record[source] = newRules
+    }
+  }, [record, source])
+
+  // Don't allow switching from regular to smart for existing playlists with tracks
+  const disabled = !isSmartPlaylist && record?.songCount > 0
+
+  return (
+    <SmartPlaylistRulesBuilder
+      value={rules}
+      onChange={handleChange}
+      disabled={disabled}
+    />
+  )
+}
 
 const SyncFragment = ({ formData, variant, ...rest }) => {
   return (
@@ -51,6 +77,7 @@ const PlaylistEditForm = (props) => {
         <TextField source="ownerName" />
       )}
       <BooleanInput source="public" disabled={!isWritable(record.ownerId)} />
+      <SmartPlaylistInput source="rules" record={record} />
       <FormDataConsumer>
         {(formDataProps) => <SyncFragment {...formDataProps} />}
       </FormDataConsumer>

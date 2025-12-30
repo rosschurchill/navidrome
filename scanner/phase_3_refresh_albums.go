@@ -124,12 +124,23 @@ func (p *phaseRefreshAlbums) finalize(err error) error {
 		logF = log.Debug
 	}
 	logF(p.ctx, "Scanner: Finished refreshing albums", "refreshed", refreshed, "skipped", skipped, err)
+
+	// Apply album artist overrides (user-defined album artist corrections)
+	start := time.Now()
+	overrideCount, overrideErr := p.ds.Album(p.ctx).ApplyAlbumArtistOverrides()
+	if overrideErr != nil {
+		log.Warn(p.ctx, "Scanner: Error applying album artist overrides", err)
+	} else if overrideCount > 0 {
+		log.Info(p.ctx, "Scanner: Applied album artist overrides", "count", overrideCount, "elapsed", time.Since(start))
+		p.state.changesDetected.Store(true)
+	}
+
 	if !p.state.changesDetected.Load() {
 		log.Debug(p.ctx, "Scanner: No changes detected, skipping refreshing annotations")
 		return nil
 	}
 	// Refresh album annotations
-	start := time.Now()
+	start = time.Now()
 	cnt, err := p.ds.Album(p.ctx).RefreshPlayCounts()
 	if err != nil {
 		return fmt.Errorf("refreshing album annotations: %w", err)

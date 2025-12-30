@@ -67,11 +67,15 @@ func (api *Router) routes() http.Handler {
 		api.addMissingFilesRoute(r)
 		api.addKeepAliveRoute(r)
 		api.addInsightsRoute(r)
+		if conf.Server.Sonos.Enabled {
+			api.addSonosDevicesRoute(r)
+		}
 
 		r.With(adminOnlyMiddleware).Group(func(r chi.Router) {
 			api.addInspectRoute(r)
 			api.addConfigRoute(r)
 			api.addUserLibraryRoute(r)
+			api.addSplitAlbumsRoute(r)
 			api.RX(r, "/library", api.libs.NewRepository, true)
 		})
 	})

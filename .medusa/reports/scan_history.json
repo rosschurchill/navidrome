@@ -1,0 +1,15 @@
+[
+  {
+    "timestamp": "2025-12-29T13:45:04.244336",
+    "security_score": 0,
+    "risk_level": "CRITICAL",
+    "total_issues": 40,
+    "severity_breakdown": {
+      "CRITICAL": 28,
+      "HIGH": 3,
+      "MEDIUM": 4,
+      "LOW": 0,
+      "UNDEFINED": 0
+    }
+  }
+]

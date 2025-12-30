@@ -20,9 +20,11 @@ import (
 	"github.com/navidrome/navidrome/plugins"
 	"github.com/navidrome/navidrome/scanner"
 	"github.com/navidrome/navidrome/server"
+	"github.com/navidrome/navidrome/server/dlna"
 	"github.com/navidrome/navidrome/server/events"
 	"github.com/navidrome/navidrome/server/nativeapi"
 	"github.com/navidrome/navidrome/server/public"
+	"github.com/navidrome/navidrome/server/sonos"
 	"github.com/navidrome/navidrome/server/subsonic"
 )
 
@@ -33,6 +35,8 @@ var allProviders = wire.NewSet(
 	subsonic.New,
 	nativeapi.New,
 	public.New,
+	sonos.New,
+	dlna.New,
 	persistence.New,
 	lastfm.NewRouter,
 	listenbrainz.NewRouter,
@@ -85,6 +89,18 @@ func CreateLastFMRouter() *lastfm.Router {
 }
 
 func CreateListenBrainzRouter() *listenbrainz.Router {
+	panic(wire.Build(
+		allProviders,
+	))
+}
+
+func CreateSonosRouter() *sonos.Router {
+	panic(wire.Build(
+		allProviders,
+	))
+}
+
+func CreateDLNARouter() *dlna.Router {
 	panic(wire.Build(
 		allProviders,
 	))

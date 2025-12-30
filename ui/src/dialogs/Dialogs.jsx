@@ -3,6 +3,7 @@ import DownloadMenuDialog from './DownloadMenuDialog'
 import { HelpDialog } from './HelpDialog'
 import { ShareDialog } from './ShareDialog'
 import { SaveQueueDialog } from './SaveQueueDialog'
+import { SplitAlbumsDialog } from './SplitAlbumsDialog'
 
 export const Dialogs = (props) => (
   <>
@@ -11,5 +12,6 @@ export const Dialogs = (props) => (
     <DownloadMenuDialog />
     <HelpDialog />
     <ShareDialog />
+    <SplitAlbumsDialog />
   </>
 )

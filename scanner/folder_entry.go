@@ -1,7 +1,6 @@
 package scanner
 
 import (
-	"crypto/md5"
 	"encoding/hex"
 	"fmt"
 	"io"
@@ -13,6 +12,7 @@ import (
 	"github.com/navidrome/navidrome/core"
 	"github.com/navidrome/navidrome/model"
 	"github.com/navidrome/navidrome/utils/chrono"
+	"golang.org/x/crypto/sha3"
 )
 
 func newFolderEntry(job *scanJob, id, path string, updTime time.Time, hash string) *folderEntry {
@@ -81,8 +81,10 @@ func (f *folderEntry) toFolder() *model.Folder {
 	return folder
 }
 
+// hash returns a hash of the folder entry based on its contents
+// Uses SHA3-256 (post-quantum resistant) for improved security
 func (f *folderEntry) hash() string {
-	h := md5.New()
+	h := sha3.New256()
 	_, _ = fmt.Fprintf(
 		h,
 		"%s:%d:%d:%s",

@@ -41,6 +41,8 @@ const (
 	URLPathSubsonicAPI  = "/rest"
 	URLPathPublic       = "/share"
 	URLPathPublicImages = URLPathPublic + "/img"
+	URLPathSonos        = "/sonos"
+	URLPathDLNA         = "/dlna"
 
 	// DefaultUILoginBackgroundURL uses Navidrome curated background images collection,
 	// available at https://unsplash.com/collections/20072696/navidrome

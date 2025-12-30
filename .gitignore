@@ -2,6 +2,8 @@
 .idea
 .vscode
 .envrc
+.env
+.env.*
 /navidrome
 /iTunes*.xml
 /tmp

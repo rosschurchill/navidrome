@@ -79,7 +79,8 @@ func buildAuthPayload(user *model.User) map[string]interface{} {
 		payload["avatar"] = gravatar.Url(user.Email, 50)
 	}
 
-	bytes := make([]byte, 3)
+	// Use 16 bytes (128 bits) of entropy for the salt - security best practice
+	bytes := make([]byte, 16)
 	_, err := rand.Read(bytes)
 	if err != nil {
 		log.Error("Could not create subsonic salt", "user", user.UserName, err)

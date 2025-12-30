@@ -50,6 +50,11 @@ func (e extractor) extractMetadata(filePath string) (*metadata.Info, error) {
 	length := parseProp(tags, "__lengthinmilliseconds")
 	ap.Duration = (time.Millisecond * time.Duration(length)).Round(time.Millisecond * 10)
 
+	// Parse gapless playback properties
+	ap.EncoderDelay = parseProp(tags, "__encoderdelay")
+	ap.EncoderPadding = parseProp(tags, "__encoderpadding")
+	ap.TotalSamples = parsePropInt64(tags, "__totalsamples")
+
 	// Extract basic tags
 	parseBasicTag(tags, "__title", "title")
 	parseBasicTag(tags, "__artist", "artist")
@@ -79,11 +84,63 @@ func (e extractor) extractMetadata(filePath string) (*metadata.Info, error) {
 	parseTIPL(tags)
 	delete(tags, "tmcl") // TMCL is already parsed by TagLib
 
+	// Diagnostic logging for files with missing or incomplete metadata
+	logMissingMetadata(fullPath, tags, ap)
+
 	return &metadata.Info{
 		Tags:            tags,
 		AudioProperties: ap,
 		HasPicture:      tags["has_picture"] != nil && len(tags["has_picture"]) > 0 && tags["has_picture"][0] == "true",
 	}, nil
+}
+
+// logMissingMetadata logs diagnostic information about files with incomplete metadata
+func logMissingMetadata(filePath string, tags map[string][]string, ap metadata.AudioProperties) {
+	var missingTags []string
+
+	// Check essential tags
+	if len(tags["title"]) == 0 {
+		missingTags = append(missingTags, "title")
+	}
+	if len(tags["artist"]) == 0 {
+		missingTags = append(missingTags, "artist")
+	}
+	if len(tags["album"]) == 0 {
+		missingTags = append(missingTags, "album")
+	}
+	if len(tags["tracknumber"]) == 0 {
+		missingTags = append(missingTags, "tracknumber")
+	}
+	if len(tags["albumartist"]) == 0 {
+		missingTags = append(missingTags, "albumartist")
+	}
+
+	// Check audio properties
+	var missingProps []string
+	if ap.Duration == 0 {
+		missingProps = append(missingProps, "duration")
+	}
+	if ap.BitRate == 0 {
+		missingProps = append(missingProps, "bitrate")
+	}
+	if ap.SampleRate == 0 {
+		missingProps = append(missingProps, "samplerate")
+	}
+
+	// Check for embedded cover art
+	hasCover := tags["has_picture"] != nil && len(tags["has_picture"]) > 0 && tags["has_picture"][0] == "true"
+	if !hasCover {
+		missingProps = append(missingProps, "embedded_art")
+	}
+
+	// Log if any essential metadata is missing
+	if len(missingTags) > 0 || len(missingProps) > 0 {
+		log.Debug("extractor: File has incomplete metadata",
+			"filePath", filePath,
+			"missingTags", strings.Join(missingTags, ","),
+			"missingProps", strings.Join(missingProps, ","),
+		)
+	}
 }
 
 // parseLyrics make sure lyrics tags have language
@@ -110,6 +167,17 @@ var tiplMapping = map[string]string{
 func parseProp(tags map[string][]string, prop string) int {
 	if value, ok := tags[prop]; ok && len(value) > 0 {
 		v, _ := strconv.Atoi(value[0])
+		delete(tags, prop)
+		return v
+	}
+	return 0
+}
+
+// parsePropInt64 parses a property from the tags map and returns it as int64.
+// It also deletes the property from the tags map after parsing.
+func parsePropInt64(tags map[string][]string, prop string) int64 {
+	if value, ok := tags[prop]; ok && len(value) > 0 {
+		v, _ := strconv.ParseInt(value[0], 10, 64)
 		delete(tags, prop)
 		return v
 	}

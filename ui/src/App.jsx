@@ -32,6 +32,7 @@ import {
   replayGainReducer,
   downloadMenuDialogReducer,
   shareDialogReducer,
+  splitAlbumsDialogReducer,
 } from './reducers'
 import createAdminStore from './store/createAdminStore'
 import { i18nProvider } from './i18n'
@@ -68,6 +69,7 @@ const adminStore = createAdminStore({
     listenBrainzTokenDialog: listenBrainzTokenDialogReducer,
     saveQueueDialog: saveQueueDialogReducer,
     shareDialog: shareDialogReducer,
+    splitAlbumsDialog: splitAlbumsDialogReducer,
     activity: activityReducer,
     settings: settingsReducer,
     replayGain: replayGainReducer,

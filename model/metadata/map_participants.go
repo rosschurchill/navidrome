@@ -7,6 +7,7 @@ import (
 	"github.com/navidrome/navidrome/conf"
 	"github.com/navidrome/navidrome/consts"
 	"github.com/navidrome/navidrome/model"
+	"github.com/navidrome/navidrome/model/id"
 	"github.com/navidrome/navidrome/utils/str"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
@@ -52,7 +53,9 @@ func (md Metadata) mapParticipants() model.Participants {
 		if md.Bool(model.TagCompilation) {
 			albumArtists = md.buildArtists([]string{consts.VariousArtists}, nil, []string{consts.VariousArtistsMbzId})
 		} else {
-			albumArtists = artists
+			// When no album artist is specified, use the primary artist (first artist before any featuring split)
+			// This helps keep albums together when tracks have featured artists
+			albumArtists = extractPrimaryArtists(artists)
 		}
 	}
 	participants.Add(model.RoleAlbumArtist, albumArtists...)
@@ -233,4 +236,44 @@ func (md Metadata) mapDisplayAlbumArtist(mf model.MediaFile) string {
 		mf.Participants.First(model.RoleAlbumArtist).Name,
 		fallbackName,
 	)
+}
+
+// extractPrimaryArtists returns only the first/primary artist from each artist entry.
+// This is used when deriving album artist from track artists, to avoid splitting albums
+// when tracks have featured artists (e.g., "Dezza & Lauren L'aimant" -> just "Dezza").
+// The function assumes artists have already been split by the artist split patterns,
+// so the first artist in the list is the primary one.
+func extractPrimaryArtists(artists []model.Artist) []model.Artist {
+	if len(artists) == 0 {
+		return artists
+	}
+	// Return only the first artist, which is the primary artist
+	// The artist name might still contain featuring info if the split patterns
+	// didn't catch it, so we also try to extract just the first part
+	primaryArtist := artists[0]
+
+	// Common featuring patterns to strip from artist name
+	featuringPatterns := []string{" feat. ", " feat ", " ft. ", " ft ", " & ", " x ", " vs ", " vs. "}
+	name := primaryArtist.Name
+	for _, pattern := range featuringPatterns {
+		lowerName := strings.ToLower(name)
+		lowerPattern := strings.ToLower(pattern)
+		if idx := strings.Index(lowerName, lowerPattern); idx > 0 {
+			name = strings.TrimSpace(name[:idx])
+			break
+		}
+	}
+
+	if name != primaryArtist.Name {
+		// Create a new artist with the cleaned name
+		return []model.Artist{{
+			ID:              id.NewHash(str.Clear(strings.ToLower(name))),
+			Name:            name,
+			SortArtistName:  primaryArtist.SortArtistName,
+			OrderArtistName: str.SanitizeFieldForSortingNoArticle(name),
+			MbzArtistID:     primaryArtist.MbzArtistID,
+		}}
+	}
+
+	return []model.Artist{primaryArtist}
 }

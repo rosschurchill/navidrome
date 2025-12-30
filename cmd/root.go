@@ -119,6 +119,19 @@ func startServer(ctx context.Context) func() error {
 		if conf.Server.ListenBrainz.Enabled {
 			a.MountRouter("ListenBrainz Auth", consts.URLPathNativeAPI+"/listenbrainz", CreateListenBrainzRouter())
 		}
+		if conf.Server.Sonos.Enabled {
+			a.MountRouter("Sonos SMAPI", consts.URLPathSonos, CreateSonosRouter().Routes())
+		}
+		if conf.Server.DLNA.Enabled {
+			dlnaRouter := CreateDLNARouter()
+			a.MountRouter("DLNA/UPnP", consts.URLPathDLNA, dlnaRouter.Routes())
+			// Start SSDP discovery in background
+			go func() {
+				if err := dlnaRouter.Start(ctx); err != nil {
+					log.Error(ctx, "Failed to start DLNA SSDP", err)
+				}
+			}()
+		}
 		if conf.Server.Prometheus.Enabled {
 			p := CreatePrometheus()
 			// blocking call because takes <100ms but useful if fails

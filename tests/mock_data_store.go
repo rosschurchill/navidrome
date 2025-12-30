@@ -24,10 +24,11 @@ type MockDataStore struct {
 	MockedShare          model.ShareRepository
 	MockedTranscoding    model.TranscodingRepository
 	MockedUserProps      model.UserPropsRepository
-	MockedScrobbleBuffer model.ScrobbleBufferRepository
-	MockedScrobble       model.ScrobbleRepository
-	MockedRadio          model.RadioRepository
-	scrobbleBufferMu     sync.Mutex
+	MockedScrobbleBuffer    model.ScrobbleBufferRepository
+	MockedScrobble          model.ScrobbleRepository
+	MockedRadio             model.RadioRepository
+	MockedSonosDeviceToken  model.SonosDeviceTokenRepository
+	scrobbleBufferMu        sync.Mutex
 	repoMu               sync.Mutex
 
 	// GC tracking
@@ -224,6 +225,17 @@ func (db *MockDataStore) Scrobble(ctx context.Context) model.ScrobbleRepository 
 		}
 	}
 	return db.MockedScrobble
+}
+
+func (db *MockDataStore) SonosDeviceToken(ctx context.Context) model.SonosDeviceTokenRepository {
+	if db.MockedSonosDeviceToken == nil {
+		if db.RealDS != nil {
+			db.MockedSonosDeviceToken = db.RealDS.SonosDeviceToken(ctx)
+		} else {
+			db.MockedSonosDeviceToken = struct{ model.SonosDeviceTokenRepository }{}
+		}
+	}
+	return db.MockedSonosDeviceToken
 }
 
 func (db *MockDataStore) Radio(ctx context.Context) model.RadioRepository {

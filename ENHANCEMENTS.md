@@ -245,6 +245,19 @@ When standard cover art patterns don't match, the system now falls back to using
 
 ---
 
+### FFmpeg Artwork Extraction Fix
+
+**Problem**: Albums with broken embedded artwork and non-standard external image filenames would show no cover art. The FFmpeg extraction would return a reader that failed later during caching/resizing, after fallback sources were no longer available.
+
+**Solution**: Modified `fromFFmpegTag` to validate extraction by reading the entire image into memory before returning. This catches FFmpeg errors at source selection time, allowing `selectImageReader` to try fallback sources.
+
+**Example**: Album with `FD12925_Global-Underground_Adapt-Artwork_1-WEB.jpg` (non-standard name) and broken WAV embedded art now correctly displays the external image.
+
+**Files Modified**:
+- `core/artwork/sources.go`
+
+---
+
 ### Diagnostic Logging
 
 Added logging for files with missing metadata to help identify tagging issues.

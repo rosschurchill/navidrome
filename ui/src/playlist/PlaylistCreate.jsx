@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import {
   Create,
   SimpleForm,
@@ -11,6 +11,27 @@ import {
   useRedirect,
 } from 'react-admin'
 import { Title } from '../common'
+import SmartPlaylistRulesBuilder from './SmartPlaylistRulesBuilder'
+
+// Custom input wrapper for SmartPlaylistRulesBuilder
+const SmartPlaylistInput = ({ record, source }) => {
+  const [rules, setRules] = useState(record?.[source] || null)
+
+  const handleChange = useCallback((newRules) => {
+    setRules(newRules)
+    if (record) {
+      record[source] = newRules
+    }
+  }, [record, source])
+
+  return (
+    <SmartPlaylistRulesBuilder
+      value={rules}
+      onChange={handleChange}
+      disabled={false}
+    />
+  )
+}
 
 const PlaylistCreate = (props) => {
   const { basePath } = props
@@ -35,6 +56,7 @@ const PlaylistCreate = (props) => {
         <TextInput source="name" validate={required()} />
         <TextInput multiline source="comment" />
         <BooleanInput source="public" initialValue={true} />
+        <SmartPlaylistInput source="rules" />
       </SimpleForm>
     </Create>
   )

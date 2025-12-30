@@ -76,6 +76,24 @@ func fromExternalFile(ctx context.Context, files []string, pattern string) sourc
 	}
 }
 
+// fromAnyImageFile is a fallback that uses any available image file when no standard patterns match
+func fromAnyImageFile(ctx context.Context, files []string) sourceFunc {
+	return func() (io.ReadCloser, string, error) {
+		if len(files) == 0 {
+			return nil, "", fmt.Errorf("no image files available")
+		}
+		// Use the first available image file (already sorted by compareImageFiles)
+		file := files[0]
+		f, err := os.Open(file)
+		if err != nil {
+			log.Warn(ctx, "Could not open fallback cover art file", "file", file, err)
+			return nil, "", err
+		}
+		log.Debug(ctx, "Using fallback image file for cover art", "file", file)
+		return f, file, nil
+	}
+}
+
 // These regexes are used to match the picture type in the file, in the order they are listed.
 var picTypeRegexes = []*regexp.Regexp{
 	regexp.MustCompile(`(?i).*cover.*front.*|.*front.*cover.*`),

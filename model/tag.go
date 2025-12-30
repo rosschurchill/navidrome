@@ -2,13 +2,13 @@ package model
 
 import (
 	"cmp"
-	"crypto/md5"
 	"fmt"
 	"slices"
 	"strings"
 
 	"github.com/navidrome/navidrome/model/id"
 	"github.com/navidrome/navidrome/utils/slice"
+	"golang.org/x/crypto/sha3"
 )
 
 type Tag struct {
@@ -117,7 +117,7 @@ func (t Tags) Hash() []byte {
 	}
 	ids := t.IDs()
 	slices.Sort(ids)
-	sum := md5.New()
+	sum := sha3.New256()
 	sum.Write([]byte(strings.Join(ids, "|")))
 	return sum.Sum(nil)
 }

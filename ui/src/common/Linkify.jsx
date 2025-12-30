@@ -13,6 +13,18 @@ const useStyles = makeStyles(
   { name: 'RaLink' },
 )
 
+// Escape HTML entities to prevent XSS attacks
+const escapeHtml = (text) => {
+  const htmlEscapes = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  }
+  return text.replace(/[&<>"']/g, (char) => htmlEscapes[char])
+}
+
 const Linkify = ({ text, ...rest }) => {
   const classes = useStyles()
   const linkify = useCallback((text) => {
@@ -23,14 +35,14 @@ const Linkify = ({ text, ...rest }) => {
 
   const parse = useCallback(() => {
     const matches = linkify(text)
-    if (matches.length === 0) return text
+    if (matches.length === 0) return escapeHtml(text)
 
     const elements = []
     let lastIndex = 0
     matches.forEach((match, index) => {
-      // Push text located before matched string
+      // Push text located before matched string (escaped to prevent XSS)
       if (match.index > lastIndex) {
-        elements.push(text.substring(lastIndex, match.index))
+        elements.push(escapeHtml(text.substring(lastIndex, match.index)))
       }
 
       const href = match[0]
@@ -51,13 +63,12 @@ const Linkify = ({ text, ...rest }) => {
       lastIndex = match.index + href.length
     })
 
-    // Push remaining text
+    // Push remaining text (escaped to prevent XSS)
     if (text.length > lastIndex) {
       elements.push(
-        <span
-          key={'last-span-key'}
-          dangerouslySetInnerHTML={{ __html: text.substring(lastIndex) }}
-        />,
+        <span key={'last-span-key'}>
+          {escapeHtml(text.substring(lastIndex))}
+        </span>,
       )
     }
 

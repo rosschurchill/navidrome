@@ -3,7 +3,6 @@ package db_test
 import (
 	"context"
 	"database/sql"
-	"math/rand"
 	"os"
 	"time"
 
@@ -11,6 +10,7 @@ import (
 	"github.com/navidrome/navidrome/conf/configtest"
 	. "github.com/navidrome/navidrome/db"
 	"github.com/navidrome/navidrome/tests"
+	"github.com/navidrome/navidrome/utils/random"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
@@ -68,9 +68,12 @@ var _ = Describe("database backups", func() {
 
 			timesShuffled = make([]time.Time, len(timesDecreasingChronologically))
 			copy(timesShuffled, timesDecreasingChronologically)
-			rand.Shuffle(len(timesShuffled), func(i, j int) {
+			// Fisher-Yates shuffle using crypto/rand for consistency with production code
+			n := len(timesShuffled)
+			for i := n - 1; i > 0; i-- {
+				j := int(random.Int64N(int64(i + 1)))
 				timesShuffled[i], timesShuffled[j] = timesShuffled[j], timesShuffled[i]
-			})
+			}
 
 			for _, time := range timesShuffled {
 				path := BackupPath(time)

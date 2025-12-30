@@ -3,7 +3,6 @@ package artwork
 import (
 	"cmp"
 	"context"
-	"crypto/md5"
 	"fmt"
 	"io"
 	"path/filepath"
@@ -18,6 +17,7 @@ import (
 	"github.com/navidrome/navidrome/core/external"
 	"github.com/navidrome/navidrome/core/ffmpeg"
 	"github.com/navidrome/navidrome/model"
+	"golang.org/x/crypto/sha3"
 )
 
 type albumArtworkReader struct {
@@ -56,16 +56,23 @@ func newAlbumArtworkReader(ctx context.Context, artwork *artwork, artID model.Ar
 	return a, nil
 }
 
+// Key returns a cache key for the album artwork
+// Uses SHA3-256 (post-quantum resistant) for hash generation
+// Version 2: Added fallback image support - cache key includes version to invalidate old entries
+const artworkCacheVersion = "v2"
+
 func (a *albumArtworkReader) Key() string {
 	var hash [16]byte
 	if conf.Server.EnableExternalServices {
-		hash = md5.Sum([]byte(conf.Server.Agents + conf.Server.CoverArtPriority))
+		full := sha3.Sum256([]byte(conf.Server.Agents + conf.Server.CoverArtPriority))
+		copy(hash[:], full[:16])
 	}
 	return fmt.Sprintf(
-		"%s.%x.%t",
+		"%s.%x.%t.%s",
 		a.cacheKey.Key(),
 		hash,
 		conf.Server.EnableExternalServices,
+		artworkCacheVersion,
 	)
 }
 func (a *albumArtworkReader) LastUpdated() time.Time {
@@ -90,6 +97,10 @@ func (a *albumArtworkReader) fromCoverArtPriority(ctx context.Context, ffmpeg ff
 		case len(a.imgFiles) > 0:
 			ff = append(ff, fromExternalFile(ctx, a.imgFiles, pattern))
 		}
+	}
+	// Fallback: if no standard patterns matched and we have image files, try any image
+	if len(a.imgFiles) > 0 {
+		ff = append(ff, fromAnyImageFile(ctx, a.imgFiles))
 	}
 	return ff
 }

@@ -50,27 +50,75 @@ int taglib_read(const FILENAME_CHAR_T *filename, unsigned long id) {
   goPutInt(id, (char *)"__channels", props->channels());
   goPutInt(id, (char *)"__samplerate", props->sampleRate());
 
-  // Extract bits per sample for supported formats
+  // Extract bits per sample and gapless playback info for supported formats
   int bitsPerSample = 0;
-  if (const auto* apeProperties{ dynamic_cast<const TagLib::APE::Properties*>(props) })
+  int encoderDelay = 0;
+  int encoderPadding = 0;
+  long long totalSamples = 0;
+
+  if (const auto* apeProperties{ dynamic_cast<const TagLib::APE::Properties*>(props) }) {
       bitsPerSample = apeProperties->bitsPerSample();
-  else if (const auto* asfProperties{ dynamic_cast<const TagLib::ASF::Properties*>(props) })
+      totalSamples = apeProperties->sampleFrames();
+  }
+  else if (const auto* asfProperties{ dynamic_cast<const TagLib::ASF::Properties*>(props) }) {
       bitsPerSample = asfProperties->bitsPerSample();
-  else if (const auto* flacProperties{ dynamic_cast<const TagLib::FLAC::Properties*>(props) })
+  }
+  else if (const auto* flacProperties{ dynamic_cast<const TagLib::FLAC::Properties*>(props) }) {
       bitsPerSample = flacProperties->bitsPerSample();
-  else if (const auto* mp4Properties{ dynamic_cast<const TagLib::MP4::Properties*>(props) })
+      // FLAC has native sample count from stream info - frame accurate
+      totalSamples = flacProperties->sampleFrames();
+  }
+  else if (const auto* mp4Properties{ dynamic_cast<const TagLib::MP4::Properties*>(props) }) {
       bitsPerSample = mp4Properties->bitsPerSample();
-  else if (const auto* wavePackProperties{ dynamic_cast<const TagLib::WavPack::Properties*>(props) })
+  }
+  else if (dynamic_cast<const TagLib::MPEG::Properties*>(props) != nullptr) {
+      // MP3/MPEG: Gapless info (encoder delay/padding) is in LAME/Xing header
+      // TagLib's MPEG::Properties and XingHeader don't expose these values
+      // TODO: Parse LAME header manually if needed - for now calculate from duration
+      totalSamples = (long long)props->lengthInMilliseconds() * props->sampleRate() / 1000;
+  }
+  else if (dynamic_cast<const TagLib::Ogg::Opus::Properties*>(props) != nullptr) {
+      // Opus has native gapless support
+      // Calculate total samples from duration and sample rate
+      totalSamples = (long long)props->lengthInMilliseconds() * props->sampleRate() / 1000;
+  }
+  else if (dynamic_cast<const TagLib::Ogg::Vorbis::Properties*>(props) != nullptr) {
+      // Vorbis: calculate total samples from duration and sample rate
+      totalSamples = (long long)props->lengthInMilliseconds() * props->sampleRate() / 1000;
+  }
+  else if (const auto* wavePackProperties{ dynamic_cast<const TagLib::WavPack::Properties*>(props) }) {
       bitsPerSample = wavePackProperties->bitsPerSample();
-  else if (const auto* aiffProperties{ dynamic_cast<const TagLib::RIFF::AIFF::Properties*>(props) })
+      totalSamples = wavePackProperties->sampleFrames();
+  }
+  else if (const auto* aiffProperties{ dynamic_cast<const TagLib::RIFF::AIFF::Properties*>(props) }) {
       bitsPerSample = aiffProperties->bitsPerSample();
-  else if (const auto* wavProperties{ dynamic_cast<const TagLib::RIFF::WAV::Properties*>(props) })
+      totalSamples = aiffProperties->sampleFrames();
+  }
+  else if (const auto* wavProperties{ dynamic_cast<const TagLib::RIFF::WAV::Properties*>(props) }) {
       bitsPerSample = wavProperties->bitsPerSample();
-  else if (const auto* dsfProperties{ dynamic_cast<const TagLib::DSF::Properties*>(props) })
+      totalSamples = wavProperties->sampleFrames();
+  }
+  else if (const auto* dsfProperties{ dynamic_cast<const TagLib::DSF::Properties*>(props) }) {
       bitsPerSample = dsfProperties->bitsPerSample();
-  
+      totalSamples = dsfProperties->sampleCount();
+  }
+
   if (bitsPerSample > 0) {
       goPutInt(id, (char *)"__bitspersample", bitsPerSample);
+  }
+
+  // Report gapless playback info
+  if (encoderDelay > 0) {
+      goPutInt(id, (char *)"__encoderdelay", encoderDelay);
+  }
+  if (encoderPadding > 0) {
+      goPutInt(id, (char *)"__encoderpadding", encoderPadding);
+  }
+  if (totalSamples > 0) {
+      // Use goPutStr for int64 values since goPutInt only supports int
+      char buf[32];
+      snprintf(buf, sizeof(buf), "%lld", totalSamples);
+      goPutStr(id, (char *)"__totalsamples", buf);
   }
 
   // Send all properties to the Go map
@@ -190,9 +238,36 @@ int taglib_read(const FILENAME_CHAR_T *filename, unsigned long id) {
   TagLib::MP4::File *m4afile(dynamic_cast<TagLib::MP4::File *>(f.file()));
   if (m4afile != NULL) {
     const auto itemListMap = m4afile->tag()->itemMap();
-    for (const auto item: itemListMap) {
+    for (const auto &item: itemListMap) {
       char *key = const_cast<char*>(item.first.toCString(true));
-      for (const auto value: item.second.toStringList()) {
+
+      // Parse iTunSMPB for gapless playback info
+      // Format: " 00000000 XXXXXXXX YYYYYYYY ZZZZZZZZZZZZZZZZ"
+      // where X = encoder delay (hex), Y = padding (hex), Z = total samples (hex)
+      if (item.first == "----:com.apple.iTunes:iTunSMPB") {
+        TagLib::StringList values = item.second.toStringList();
+        if (!values.isEmpty()) {
+          std::string smpb = values.front().to8Bit(true);
+          // Parse the space-separated hex values
+          unsigned int dummy, delay, padding;
+          unsigned long long samples;
+          if (sscanf(smpb.c_str(), " %x %x %x %llx", &dummy, &delay, &padding, &samples) >= 4) {
+            if (delay > 0) {
+              goPutInt(id, (char *)"__encoderdelay", delay);
+            }
+            if (padding > 0) {
+              goPutInt(id, (char *)"__encoderpadding", padding);
+            }
+            if (samples > 0) {
+              char buf[32];
+              snprintf(buf, sizeof(buf), "%llu", samples);
+              goPutStr(id, (char *)"__totalsamples", buf);
+            }
+          }
+        }
+      }
+
+      for (const auto &value: item.second.toStringList()) {
         char *val = const_cast<char*>(value.toCString(true));
         goPutM4AStr(id, key, val);
       }
@@ -211,6 +286,25 @@ int taglib_read(const FILENAME_CHAR_T *filename, unsigned long id) {
            j != item.second.end(); ++j) {
 
         char *val = const_cast<char*>(j->toString().toCString(true));
+        goPutStr(id, key, val);
+      }
+    }
+  }
+
+  // WAV RIFF INFO chunk extraction - extract native WAV metadata
+  TagLib::RIFF::WAV::File *wavInfoFile(dynamic_cast<TagLib::RIFF::WAV::File *>(f.file()));
+  if (wavInfoFile != NULL && wavInfoFile->hasInfoTag()) {
+    const TagLib::RIFF::Info::Tag *infoTag = wavInfoFile->InfoTag();
+    if (infoTag != NULL) {
+      const auto &fieldMap = infoTag->fieldListMap();
+      for (const auto &field : fieldMap) {
+        // Map RIFF INFO field IDs to readable names for Go processing
+        // Common RIFF INFO fields: INAM=title, IART=artist, IPRD=album, ICRD=date,
+        // ICMT=comment, IGNR=genre, ITRK=track, ISFT=software, ICOP=copyright
+        // ByteVector needs data() to get raw char pointer
+        std::string keyStr(field.first.data(), field.first.size());
+        char *key = const_cast<char*>(keyStr.c_str());
+        char *val = const_cast<char*>(field.second.toCString(true));
         goPutStr(id, key, val);
       }
     }

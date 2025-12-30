@@ -2,7 +2,6 @@ package artwork
 
 import (
 	"context"
-	"crypto/md5"
 	"fmt"
 	"io"
 	"io/fs"
@@ -19,6 +18,7 @@ import (
 	"github.com/navidrome/navidrome/log"
 	"github.com/navidrome/navidrome/model"
 	"github.com/navidrome/navidrome/utils/str"
+	"golang.org/x/crypto/sha3"
 )
 
 const (
@@ -78,8 +78,12 @@ func newArtistArtworkReader(ctx context.Context, artwork *artwork, artID model.A
 	return a, nil
 }
 
+// Key returns a cache key for the artist artwork
+// Uses SHA3-256 (post-quantum resistant) for hash generation
 func (a *artistReader) Key() string {
-	hash := md5.Sum([]byte(conf.Server.Agents + conf.Server.Spotify.ID))
+	full := sha3.Sum256([]byte(conf.Server.Agents + conf.Server.Spotify.ID))
+	var hash [16]byte
+	copy(hash[:], full[:16])
 	return fmt.Sprintf(
 		"%s.%t.%x",
 		a.cacheKey.Key(),

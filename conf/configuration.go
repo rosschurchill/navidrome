@@ -102,6 +102,8 @@ type configOptions struct {
 	Spotify                         spotifyOptions      `json:",omitzero"`
 	Deezer                          deezerOptions       `json:",omitzero"`
 	ListenBrainz                    listenBrainzOptions `json:",omitzero"`
+	DLNA                            dlnaOptions         `json:",omitzero"`
+	Fingerprint                     fingerprintOptions  `json:",omitzero"`
 	EnableScrobbleHistory           bool
 	Tags                            map[string]TagConf `json:",omitempty"`
 	Agents                          string
@@ -186,6 +188,22 @@ type deezerOptions struct {
 type listenBrainzOptions struct {
 	Enabled bool
 	BaseURL string
+}
+
+type fingerprintOptions struct {
+	Enabled        bool
+	AcoustIDApiKey string
+	FpcalcPath     string
+	CacheResults   bool
+	AutoIdentify   bool
+	BatchSize      int
+}
+
+type dlnaOptions struct {
+	Enabled          bool
+	ServerName       string
+	Interface        string
+	TranscodeProfile string
 }
 
 type httpHeaderOptions struct {
@@ -439,6 +457,7 @@ func disableExternalServices() {
 	Server.Spotify.ID = ""
 	Server.Deezer.Enabled = false
 	Server.ListenBrainz.Enabled = false
+	Server.Fingerprint.Enabled = false
 	Server.Agents = ""
 	if Server.UILoginBackgroundURL == consts.DefaultUILoginBackgroundURL {
 		Server.UILoginBackgroundURL = consts.DefaultUILoginBackgroundURLOffline
@@ -620,6 +639,16 @@ func setViperDefaults() {
 	viper.SetDefault("deezer.language", "en")
 	viper.SetDefault("listenbrainz.enabled", true)
 	viper.SetDefault("listenbrainz.baseurl", "https://api.listenbrainz.org/1/")
+	viper.SetDefault("dlna.enabled", false)
+	viper.SetDefault("dlna.servername", "Navidrome")
+	viper.SetDefault("dlna.interface", "")
+	viper.SetDefault("dlna.transcodeprofile", "auto")
+	viper.SetDefault("fingerprint.enabled", false)
+	viper.SetDefault("fingerprint.acoustidapikey", "")
+	viper.SetDefault("fingerprint.fpcalcpath", "")
+	viper.SetDefault("fingerprint.cacheresults", true)
+	viper.SetDefault("fingerprint.autoidentify", false)
+	viper.SetDefault("fingerprint.batchsize", 100)
 	viper.SetDefault("enablescrobblehistory", true)
 	viper.SetDefault("httpheaders.frameoptions", "DENY")
 	viper.SetDefault("backup.path", "")

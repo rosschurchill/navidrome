@@ -17,7 +17,8 @@ import {
 } from 'react-admin'
 import Switch from '@material-ui/core/Switch'
 import { makeStyles } from '@material-ui/core/styles'
-import { useMediaQuery } from '@material-ui/core'
+import { useMediaQuery, Tooltip, Chip } from '@material-ui/core'
+import AutorenewIcon from '@material-ui/icons/Autorenew'
 import {
   DurationField,
   List,
@@ -33,7 +34,40 @@ const useStyles = makeStyles((theme) => ({
   button: {
     color: theme.palette.type === 'dark' ? 'white' : undefined,
   },
+  smartChip: {
+    height: 20,
+    fontSize: '0.7rem',
+    marginLeft: theme.spacing(1),
+  },
+  nameCell: {
+    display: 'flex',
+    alignItems: 'center',
+  },
 }))
+
+// Custom field that shows playlist name with smart playlist indicator
+const PlaylistNameField = ({ source }) => {
+  const record = useRecordContext()
+  const classes = useStyles()
+  const isSmartPlaylist = record?.rules !== null && record?.rules !== undefined
+
+  return (
+    <span className={classes.nameCell}>
+      {record?.[source]}
+      {isSmartPlaylist && (
+        <Tooltip title="Smart Playlist">
+          <Chip
+            icon={<AutorenewIcon />}
+            label="Smart"
+            size="small"
+            color="primary"
+            className={classes.smartChip}
+          />
+        </Tooltip>
+      )}
+    </span>
+  )
+}
 
 const PlaylistFilter = (props) => {
   const { permissions } = usePermissions()
@@ -175,7 +209,7 @@ const PlaylistList = (props) => {
       bulkActionButtons={!isXsmall && <PlaylistListBulkActions />}
     >
       <Datagrid rowClick="show" isRowSelectable={(r) => isWritable(r?.ownerId)}>
-        <TextField source="name" />
+        <PlaylistNameField source="name" />
         {columns}
         <Writable>
           <EditButton />

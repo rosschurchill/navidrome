@@ -17,6 +17,8 @@ import {
   SAVE_QUEUE_CLOSE,
   SHARE_MENU_OPEN,
   SHARE_MENU_CLOSE,
+  SPLIT_ALBUMS_OPEN,
+  SPLIT_ALBUMS_CLOSE,
 } from '../actions'
 
 export const shareDialogReducer = (
@@ -181,6 +183,21 @@ export const saveQueueDialogReducer = (
     case SAVE_QUEUE_OPEN:
       return { ...previousState, open: true }
     case SAVE_QUEUE_CLOSE:
+      return { ...previousState, open: false }
+    default:
+      return previousState
+  }
+}
+
+export const splitAlbumsDialogReducer = (
+  previousState = { open: false },
+  payload,
+) => {
+  const { type } = payload
+  switch (type) {
+    case SPLIT_ALBUMS_OPEN:
+      return { ...previousState, open: true }
+    case SPLIT_ALBUMS_CLOSE:
       return { ...previousState, open: false }
     default:
       return previousState

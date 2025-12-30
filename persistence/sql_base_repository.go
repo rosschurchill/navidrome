@@ -2,7 +2,6 @@ package persistence
 
 import (
 	"context"
-	"crypto/md5"
 	"database/sql"
 	"errors"
 	"fmt"
@@ -21,6 +20,7 @@ import (
 	"github.com/navidrome/navidrome/utils/hasher"
 	"github.com/navidrome/navidrome/utils/slice"
 	"github.com/pocketbase/dbx"
+	"golang.org/x/crypto/sha3"
 )
 
 // sqlRepository is the base repository for all SQL repositories. It provides common functions to interact with the DB.
@@ -224,7 +224,10 @@ func (r sqlRepository) applyLibraryFilter(sq SelectBuilder, tableName ...string)
 func (r sqlRepository) seedKey() string {
 	// Seed keys must be all lowercase, or else SQLite3 will encode it, making it not match the seed
 	// used in the query. Hashing the user ID and converting it to a hex string will do the trick
-	userIDHash := md5.Sum([]byte(loggedUser(r.ctx).ID))
+	// Using SHA3-256 (post-quantum resistant) instead of MD5
+	hasher := sha3.New256()
+	hasher.Write([]byte(loggedUser(r.ctx).ID))
+	userIDHash := hasher.Sum(nil)[:16] // Truncate to 16 bytes for compatibility
 	return fmt.Sprintf("%s|%x", r.tableName, userIDHash)
 }
 

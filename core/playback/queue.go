@@ -2,10 +2,10 @@ package playback
 
 import (
 	"fmt"
-	"math/rand"
 
 	"github.com/navidrome/navidrome/log"
 	"github.com/navidrome/navidrome/model"
+	"github.com/navidrome/navidrome/utils/random"
 )
 
 type Queue struct {
@@ -92,6 +92,8 @@ func (pd *Queue) Remove(idx int) {
 	}
 }
 
+// Shuffle randomizes the queue order using cryptographically secure random numbers.
+// Preserves the current playing track position.
 func (pd *Queue) Shuffle() {
 	current := pd.Current()
 	backupID := ""
@@ -99,7 +101,12 @@ func (pd *Queue) Shuffle() {
 		backupID = current.ID
 	}
 
-	rand.Shuffle(len(pd.Items), func(i, j int) { pd.Items[i], pd.Items[j] = pd.Items[j], pd.Items[i] })
+	// Fisher-Yates shuffle using crypto/rand for security
+	n := len(pd.Items)
+	for i := n - 1; i > 0; i-- {
+		j := int(random.Int64N(int64(i + 1)))
+		pd.Items[i], pd.Items[j] = pd.Items[j], pd.Items[i]
+	}
 
 	var err error
 	pd.Index, err = pd.getMediaFileIndexByID(backupID)

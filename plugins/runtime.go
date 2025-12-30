@@ -2,7 +2,6 @@ package plugins
 
 import (
 	"context"
-	"crypto/md5"
 	"fmt"
 	"io/fs"
 	"maps"
@@ -28,6 +27,7 @@ import (
 	"github.com/tetratelabs/wazero"
 	wazeroapi "github.com/tetratelabs/wazero/api"
 	"github.com/tetratelabs/wazero/imports/wasi_snapshot_preview1"
+	"golang.org/x/crypto/sha3"
 )
 
 const maxParallelCompilations = 2 // Limit to 2 concurrent compilations
@@ -369,11 +369,20 @@ type cachedCompiledModule struct {
 	pluginID   string // for logging purposes
 }
 
+// sha3Sum16 computes SHA3-256 hash and truncates to 16 bytes for cache key compatibility
+// Uses SHA3-256 (post-quantum resistant) instead of MD5
+func sha3Sum16(data []byte) [16]byte {
+	full := sha3.Sum256(data)
+	var truncated [16]byte
+	copy(truncated[:], full[:16])
+	return truncated
+}
+
 // newCachedCompiledModule creates a new cached compiled module with TTL management
 func newCachedCompiledModule(module wazero.CompiledModule, wasmBytes []byte, pluginID string) *cachedCompiledModule {
 	c := &cachedCompiledModule{
 		module:     module,
-		hash:       md5.Sum(wasmBytes),
+		hash:       sha3Sum16(wasmBytes),
 		lastAccess: time.Now(),
 		pluginID:   pluginID,
 	}
@@ -589,8 +598,9 @@ func (r *cachingRuntime) setCachedModule(module wazero.CompiledModule, wasmBytes
 
 // CompileModule checks if the provided bytes match our cached hash and returns
 // the cached compiled module if so, avoiding both file read and compilation.
+// Uses SHA3-256 (post-quantum resistant) for hash verification
 func (r *cachingRuntime) CompileModule(ctx context.Context, wasmBytes []byte) (wazero.CompiledModule, error) {
-	incomingHash := md5.Sum(wasmBytes)
+	incomingHash := sha3Sum16(wasmBytes)
 
 	// Try to get from cache first (without lock for performance)
 	if cached := r.cachedModule.Load(); cached != nil {

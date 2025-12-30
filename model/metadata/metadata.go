@@ -30,11 +30,14 @@ type FileInfo interface {
 }
 
 type AudioProperties struct {
-	Duration   time.Duration
-	BitRate    int
-	BitDepth   int
-	SampleRate int
-	Channels   int
+	Duration       time.Duration
+	BitRate        int
+	BitDepth       int
+	SampleRate     int
+	Channels       int
+	EncoderDelay   int   // Samples to skip at start (for gapless playback)
+	EncoderPadding int   // Samples to skip at end (for gapless playback)
+	TotalSamples   int64 // Total sample count (for frame-accurate seeking)
 }
 
 type Date string

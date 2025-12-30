@@ -124,6 +124,19 @@ type Albums []Album
 
 type AlbumCursor iter.Seq2[Album, error]
 
+// SplitAlbum represents an album that has been incorrectly split into multiple entries
+type SplitAlbum struct {
+	Name           string   `json:"name"`
+	SplitCount     int      `json:"splitCount"`
+	AlbumIDs       []string `json:"albumIds"`
+	AlbumArtists   []string `json:"albumArtists"`
+	SuggestedFix   string   `json:"suggestedFix"`   // The suggested album artist to merge under
+	TotalTracks    int      `json:"totalTracks"`
+	IsCompilation  bool     `json:"isCompilation"`  // True if likely a compilation (many different artists)
+}
+
+type SplitAlbums []SplitAlbum
+
 type AlbumRepository interface {
 	CountAll(...QueryOptions) (int64, error)
 	Exists(id string) (bool, error)
@@ -132,12 +145,19 @@ type AlbumRepository interface {
 	Get(id string) (*Album, error)
 	GetAll(...QueryOptions) (Albums, error)
 
+	// GetSplitAlbums returns albums that have been incorrectly split into multiple entries
+	GetSplitAlbums() (SplitAlbums, error)
+	// MergeAlbums merges multiple album entries under a single album artist
+	MergeAlbums(albumIDs []string, targetAlbumArtist string) error
+
 	// The following methods are used exclusively by the scanner:
 	Touch(ids ...string) error
 	TouchByMissingFolder() (int64, error)
 	GetTouchedAlbums(libID int) (AlbumCursor, error)
 	RefreshPlayCounts() (int64, error)
 	CopyAttributes(fromID, toID string, columns ...string) error
+	// ApplyAlbumArtistOverrides applies user-defined album artist corrections
+	ApplyAlbumArtistOverrides() (int64, error)
 
 	AnnotatedRepository
 	SearchableRepository[Albums]

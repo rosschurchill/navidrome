@@ -24,10 +24,10 @@ type MockDataStore struct {
 	MockedShare          model.ShareRepository
 	MockedTranscoding    model.TranscodingRepository
 	MockedUserProps      model.UserPropsRepository
-	MockedScrobbleBuffer model.ScrobbleBufferRepository
-	MockedScrobble       model.ScrobbleRepository
-	MockedRadio          model.RadioRepository
-	scrobbleBufferMu     sync.Mutex
+	MockedScrobbleBuffer    model.ScrobbleBufferRepository
+	MockedScrobble          model.ScrobbleRepository
+	MockedRadio             model.RadioRepository
+	scrobbleBufferMu        sync.Mutex
 	repoMu               sync.Mutex
 
 	// GC tracking

@@ -4,6 +4,18 @@ import sanitizeFieldRestProps from './sanitizeFieldRestProps'
 import md5 from 'blueimp-md5'
 import { useRecordContext } from 'react-admin'
 
+// Escape HTML entities to prevent XSS attacks
+const escapeHtml = (text) => {
+  const htmlEscapes = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  }
+  return text.replace(/[&<>"']/g, (char) => htmlEscapes[char])
+}
+
 export const MultiLineTextField = memo(
   ({
     className,
@@ -34,11 +46,9 @@ export const MultiLineTextField = memo(
               line === '' ? (
                 <br key={md5(line + idx)} />
               ) : (
-                <div
-                  data-testid={`${source}.${idx}`}
-                  key={md5(line + idx)}
-                  dangerouslySetInnerHTML={{ __html: line }}
-                />
+                <div data-testid={`${source}.${idx}`} key={md5(line + idx)}>
+                  {escapeHtml(line)}
+                </div>
               ),
             )}
       </Typography>

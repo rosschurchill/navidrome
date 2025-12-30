@@ -34,4 +34,4 @@ AGENTS.md
 *.exe
 *.test
 *.wasm
-openspec/
+openspec/docs/plans/

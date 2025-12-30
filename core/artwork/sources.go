@@ -155,7 +155,18 @@ func fromFFmpegTag(ctx context.Context, ffmpeg ffmpeg.FFmpeg, path string) sourc
 		if err != nil {
 			return nil, "", err
 		}
-		return r, path, nil
+		// Read entire image into memory to validate FFmpeg extraction succeeded
+		// This catches late failures (e.g., FFmpeg exit code errors) at source selection time
+		// rather than later during caching/resizing when fallbacks are no longer available
+		data, err := io.ReadAll(r)
+		r.Close()
+		if err != nil {
+			return nil, "", fmt.Errorf("ffmpeg extraction failed for %s: %w", path, err)
+		}
+		if len(data) == 0 {
+			return nil, "", fmt.Errorf("ffmpeg returned empty image for %s", path)
+		}
+		return io.NopCloser(bytes.NewReader(data)), path, nil
 	}
 }
 

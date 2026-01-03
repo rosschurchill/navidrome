@@ -320,8 +320,9 @@ func (s *SonosCast) ToggleMute(ctx context.Context, uuid string) (bool, error) {
 
 // BuildTrackMetadata creates DIDL-Lite metadata for a track
 // streamURI and mimeType are required for Sonos to understand the content type
-func (s *SonosCast) BuildTrackMetadata(id, title, artist, album, albumArtURL, streamURI, mimeType string) string {
-	return BuildDIDLMetadata(id, title, artist, album, albumArtURL, streamURI, mimeType)
+// durationSecs is the track duration in seconds (pass 0 to omit)
+func (s *SonosCast) BuildTrackMetadata(id, title, artist, album, albumArtURL, streamURI, mimeType string, durationSecs float32) string {
+	return BuildDIDLMetadata(id, title, artist, album, albumArtURL, streamURI, mimeType, durationSecs)
 }
 
 // Discovery returns the underlying discovery service

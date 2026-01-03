@@ -105,7 +105,7 @@ const AlbumActions = ({
           {config.enableSonosCast && (
             <AlbumButton
               onClick={handleCast}
-              label={translate('resources.album.actions.castToSonos')}
+              label={translate('resources.album.actions.cast')}
             >
               <SpeakerIcon />
             </AlbumButton>

@@ -16,7 +16,6 @@ import playlist from './playlist'
 import radio from './radio'
 import share from './share'
 import library from './library'
-import { Player } from './audioplayer'
 import { SonosMiniPlayer } from './common/SonosMiniPlayer'
 import customRoutes from './routes'
 import {
@@ -152,7 +151,6 @@ const Admin = (props) => {
         <Resource name="keepalive" />,
         <Resource name="insights" />,
         <Resource name="config" />,
-        <Player />,
         config.enableSonosCast && <SonosMiniPlayer />,
       ]}
     </RAAdmin>

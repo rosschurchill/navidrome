@@ -47,7 +47,7 @@
         "download": "Download",
         "playNext": "Play Next",
         "info": "Get Info",
-        "castToSonos": "Cast to Sonos"
+        "cast": "Cast"
       }
     },
     "album": {
@@ -90,7 +90,7 @@
         "addToPlaylist": "Add to Playlist",
         "download": "Download",
         "info": "Get Info",
-        "castToSonos": "Cast to Sonos"
+        "cast": "Cast"
       },
       "lists": {
         "all": "All",
@@ -528,7 +528,7 @@
     "shareFailure": "Error copying URL %{url} to clipboard",
     "downloadDialogTitle": "Download %{resource} '%{name}' (%{size})",
     "downloadOriginalFormat": "Download in original format",
-    "castToSonos": "Cast %{name} to Sonos",
+    "cast": "Cast %{name}",
     "refreshDevices": "Refresh Devices",
     "noSonosDevices": "No Sonos Devices Found",
     "noSonosDevicesHint": "Make sure your Sonos speakers are powered on and connected to the same network.",

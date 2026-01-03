@@ -7,6 +7,8 @@ export const PLAYER_PLAY_TRACKS = 'PLAYER_PLAY_TRACKS'
 export const PLAYER_CURRENT = 'PLAYER_CURRENT'
 export const PLAYER_SET_VOLUME = 'PLAYER_SET_VOLUME'
 export const PLAYER_SET_MODE = 'PLAYER_SET_MODE'
+export const PLAYER_SET_SONOS_ACTIVE = 'PLAYER_SET_SONOS_ACTIVE'
+export const PLAYER_SET_SONOS_DEVICE = 'PLAYER_SET_SONOS_DEVICE'
 
 export const setTrack = (data) => ({
   type: PLAYER_SET_TRACK,
@@ -101,4 +103,14 @@ export const setVolume = (volume) => ({
 export const setPlayMode = (mode) => ({
   type: PLAYER_SET_MODE,
   data: { mode },
+})
+
+export const setSonosActive = (active) => ({
+  type: PLAYER_SET_SONOS_ACTIVE,
+  data: { active },
+})
+
+export const setSonosDevice = (device) => ({
+  type: PLAYER_SET_SONOS_DEVICE,
+  data: { device },
 })

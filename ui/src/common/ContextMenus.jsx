@@ -111,10 +111,10 @@ const ContextMenu = ({
           dispatch(openShareMenu([record.id], resource, record.name)),
       },
     }),
-    castToSonos: {
+    cast: {
       enabled: config.enableSonosCast,
       needData: true,
-      label: translate('resources.album.actions.castToSonos'),
+      label: translate('resources.album.actions.cast'),
       action: (data, ids) =>
         dispatch(
           openSonosCastDialog({

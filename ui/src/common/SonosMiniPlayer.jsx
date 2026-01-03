@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useTranslate } from 'react-admin'
+import { setSonosActive, setSonosDevice } from '../actions'
 import {
   Box,
   IconButton,
@@ -26,38 +28,66 @@ const useStyles = makeStyles((theme) => ({
     bottom: 0,
     left: 0,
     right: 0,
-    zIndex: 1300,
-    backgroundColor: theme.palette.background.paper,
-    borderTop: `1px solid ${theme.palette.divider}`,
-    padding: theme.spacing(1, 2),
+    zIndex: 9999,
+    background: 'linear-gradient(180deg, #282828 0%, #181818 100%)',
+    borderTop: '1px solid #404040',
+    padding: theme.spacing(0, 2),
+    height: 56,
+    display: 'flex',
+    alignItems: 'center',
   },
   container: {
     display: 'flex',
     alignItems: 'center',
-    gap: theme.spacing(2),
-    maxWidth: 1200,
-    margin: '0 auto',
+    gap: theme.spacing(1.5),
+    width: '100%',
+    height: '100%',
   },
   deviceInfo: {
     display: 'flex',
     alignItems: 'center',
-    gap: theme.spacing(1),
-    minWidth: 150,
+    gap: theme.spacing(0.75),
+    padding: theme.spacing(0.5, 1),
+    backgroundColor: 'rgba(29, 185, 84, 0.1)',
+    borderRadius: 4,
+    border: '1px solid rgba(29, 185, 84, 0.3)',
+  },
+  deviceIcon: {
+    color: '#1DB954',
+    fontSize: 18,
+  },
+  deviceName: {
+    color: '#1DB954',
+    fontWeight: 600,
+    fontSize: '0.8em',
+  },
+  deviceState: {
+    color: '#1DB954',
+    fontWeight: 500,
+    fontSize: '0.8em',
+    opacity: 0.85,
+  },
+  deviceSeparator: {
+    color: '#1DB954',
+    opacity: 0.5,
+    fontSize: '0.8em',
   },
   trackInfo: {
-    flex: 1,
-    minWidth: 0,
+    flex: '0 1 200px',
+    minWidth: 120,
     overflow: 'hidden',
   },
   trackTitle: {
-    fontWeight: 500,
+    fontWeight: 600,
+    fontSize: '0.95em',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
+    color: '#ffffff',
   },
   trackArtist: {
-    fontSize: '0.85em',
-    color: theme.palette.text.secondary,
+    fontSize: '0.8em',
+    color: '#b3b3b3',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
@@ -67,28 +97,43 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     gap: theme.spacing(0.5),
   },
+  controlButton: {
+    color: '#b3b3b3',
+    padding: 6,
+    '&:hover': {
+      color: '#ffffff',
+      transform: 'scale(1.1)',
+    },
+    transition: 'all 0.1s ease',
+  },
+  playButton: {
+    color: '#000000',
+    backgroundColor: '#ffffff',
+    padding: 6,
+    '&:hover': {
+      backgroundColor: '#ffffff',
+      transform: 'scale(1.1)',
+    },
+    transition: 'all 0.1s ease',
+  },
+  stopButton: {
+    color: '#b3b3b3',
+    padding: 6,
+    '&:hover': {
+      color: '#ff5555',
+      transform: 'scale(1.1)',
+    },
+    transition: 'all 0.1s ease',
+  },
   volumeControl: {
     display: 'flex',
     alignItems: 'center',
     gap: theme.spacing(1),
-    minWidth: 150,
+    minWidth: 140,
   },
-  volumeSlider: {
-    width: 100,
-  },
-  stateIndicator: {
-    fontSize: '0.75em',
-    padding: theme.spacing(0.25, 1),
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: theme.palette.action.selected,
-  },
-  playing: {
-    backgroundColor: theme.palette.success.main,
-    color: theme.palette.success.contrastText,
-  },
-  paused: {
-    backgroundColor: theme.palette.warning.main,
-    color: theme.palette.warning.contrastText,
+  volumeIcon: {
+    color: '#b3b3b3',
+    fontSize: 20,
   },
   progressContainer: {
     display: 'flex',
@@ -99,12 +144,46 @@ const useStyles = makeStyles((theme) => ({
   },
   progressSlider: {
     flex: 1,
+    color: '#1DB954',
+    height: 4,
+    '& .MuiSlider-track': {
+      backgroundColor: '#1DB954',
+      height: 4,
+    },
+    '& .MuiSlider-rail': {
+      backgroundColor: '#535353',
+      height: 4,
+    },
+    '& .MuiSlider-thumb': {
+      backgroundColor: '#ffffff',
+      width: 10,
+      height: 10,
+      '&:hover': {
+        boxShadow: '0 0 0 6px rgba(29, 185, 84, 0.16)',
+      },
+    },
+  },
+  volumeSlider: {
+    width: 90,
+    color: '#1DB954',
+    '& .MuiSlider-track': {
+      backgroundColor: '#1DB954',
+    },
+    '& .MuiSlider-rail': {
+      backgroundColor: '#535353',
+    },
+    '& .MuiSlider-thumb': {
+      backgroundColor: '#ffffff',
+      width: 12,
+      height: 12,
+    },
   },
   timeDisplay: {
-    fontSize: '0.75em',
-    color: theme.palette.text.secondary,
-    minWidth: 45,
+    fontSize: '0.7em',
+    color: '#b3b3b3',
+    minWidth: 32,
     textAlign: 'center',
+    fontFamily: 'monospace',
   },
   qualityInfo: {
     display: 'flex',
@@ -113,20 +192,27 @@ const useStyles = makeStyles((theme) => ({
   },
   qualityBadge: {
     fontSize: '0.65em',
-    padding: theme.spacing(0.25, 0.75),
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: theme.palette.action.selected,
-    color: theme.palette.text.secondary,
-    fontWeight: 500,
+    padding: '2px 6px',
+    borderRadius: 3,
+    backgroundColor: '#404040',
+    color: '#b3b3b3',
+    fontWeight: 600,
     whiteSpace: 'nowrap',
   },
   transcoding: {
-    backgroundColor: theme.palette.warning.light,
-    color: theme.palette.warning.contrastText,
+    backgroundColor: '#ff9800',
+    color: '#000000',
   },
   hiRes: {
-    backgroundColor: theme.palette.info.main,
-    color: theme.palette.info.contrastText,
+    backgroundColor: '#1DB954',
+    color: '#000000',
+  },
+  closeButton: {
+    color: '#b3b3b3',
+    marginLeft: 'auto',
+    '&:hover': {
+      color: '#ffffff',
+    },
   },
 }))
 
@@ -158,6 +244,10 @@ const formatQuality = (track) => {
 export const SonosMiniPlayer = () => {
   const classes = useStyles()
   const translate = useTranslate()
+  const dispatch = useDispatch()
+
+  // Get the device from Redux (set by SonosCastDialog when casting)
+  const reduxDevice = useSelector((state) => state.player.sonosDevice)
 
   const [visible, setVisible] = useState(false)
   const [activeDevice, setActiveDevice] = useState(null)
@@ -166,11 +256,40 @@ export const SonosMiniPlayer = () => {
   const [isSeeking, setIsSeeking] = useState(false)
   const [seekPosition, setSeekPosition] = useState(0)
 
+  // When Redux device changes (user cast to a new device), update local state
+  useEffect(() => {
+    if (reduxDevice) {
+      setActiveDevice(reduxDevice)
+    }
+  }, [reduxDevice])
+
+  // Notify Redux when Sonos player visibility changes
+  useEffect(() => {
+    dispatch(setSonosActive(visible))
+  }, [visible, dispatch])
+
   // Poll for active Sonos playback
   const checkPlayback = useCallback(async () => {
     try {
       const response = await httpClient('/api/cast/sonos/devices')
       const devices = response.json || []
+
+      // If we have an active device, check it first to maintain tracking
+      if (activeDevice) {
+        try {
+          const stateResponse = await httpClient(`/api/cast/sonos/devices/${activeDevice.uuid}/state`)
+          const state = stateResponse.json
+
+          if (state.state === 'PLAYING' || state.state === 'PAUSED_PLAYBACK' || state.state === 'TRANSITIONING') {
+            setPlaybackState(state)
+            setVolume(state.volume || 50)
+            setVisible(true)
+            return
+          }
+        } catch (e) {
+          // Current device no longer available, fall through to scan all
+        }
+      }
 
       // Check each device for active playback
       for (const device of devices) {
@@ -197,7 +316,7 @@ export const SonosMiniPlayer = () => {
     } catch (error) {
       console.error('Failed to check Sonos playback:', error)
     }
-  }, [])
+  }, [activeDevice])
 
   useEffect(() => {
     // Initial check
@@ -318,17 +437,14 @@ export const SonosMiniPlayer = () => {
         <Box className={classes.container}>
           {/* Device Info */}
           <Box className={classes.deviceInfo}>
-            <SpeakerIcon color="primary" />
-            <Box>
-              <Typography variant="body2" className={classes.trackTitle}>
-                {activeDevice?.roomName || 'Sonos'}
-              </Typography>
-              <Typography
-                className={`${classes.stateIndicator} ${isPlaying ? classes.playing : isPaused ? classes.paused : ''}`}
-              >
-                {getStateLabel()}
-              </Typography>
-            </Box>
+            <SpeakerIcon className={classes.deviceIcon} />
+            <Typography className={classes.deviceName}>
+              {activeDevice?.roomName || 'Sonos'}
+            </Typography>
+            <Typography className={classes.deviceSeparator}>•</Typography>
+            <Typography className={classes.deviceState}>
+              {getStateLabel()}
+            </Typography>
           </Box>
 
           {/* Track Info */}
@@ -338,28 +454,9 @@ export const SonosMiniPlayer = () => {
                 <Typography className={classes.trackTitle}>
                   {playbackState.currentTrack.title || 'Unknown Track'}
                 </Typography>
-                <Box style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <Typography className={classes.trackArtist}>
-                    {playbackState.currentTrack.artist || 'Unknown Artist'}
-                  </Typography>
-                  {/* Quality Info */}
-                  <Box className={classes.qualityInfo}>
-                    {playbackState.currentTrack.format && (
-                      <Typography
-                        className={`${classes.qualityBadge} ${
-                          playbackState.currentTrack.sampleRate > 44100 ? classes.hiRes : ''
-                        }`}
-                      >
-                        {formatQuality(playbackState.currentTrack)}
-                      </Typography>
-                    )}
-                    {playbackState.currentTrack.transcoding && (
-                      <Typography className={`${classes.qualityBadge} ${classes.transcoding}`}>
-                        Transcoding
-                      </Typography>
-                    )}
-                  </Box>
-                </Box>
+                <Typography className={classes.trackArtist}>
+                  {playbackState.currentTrack.artist || 'Unknown Artist'}
+                </Typography>
               </>
             ) : (
               <Typography className={classes.trackArtist}>
@@ -368,24 +465,42 @@ export const SonosMiniPlayer = () => {
             )}
           </Box>
 
+          {/* Quality Info - separate section */}
+          {playbackState?.currentTrack?.format && (
+            <Box className={classes.qualityInfo}>
+              <Typography
+                className={`${classes.qualityBadge} ${
+                  playbackState.currentTrack.sampleRate > 44100 ? classes.hiRes : ''
+                }`}
+              >
+                {formatQuality(playbackState.currentTrack)}
+              </Typography>
+              {playbackState.currentTrack.transcoding && (
+                <Typography className={`${classes.qualityBadge} ${classes.transcoding}`}>
+                  Transcoding
+                </Typography>
+              )}
+            </Box>
+          )}
+
           {/* Playback Controls */}
           <Box className={classes.controls}>
-            <IconButton onClick={handlePrevious} size="small" title="Previous">
+            <IconButton onClick={handlePrevious} size="small" title="Previous" className={classes.controlButton}>
               <SkipPreviousIcon />
             </IconButton>
             {isPlaying ? (
-              <IconButton onClick={handlePause} size="small" title="Pause">
+              <IconButton onClick={handlePause} size="small" title="Pause" className={classes.playButton}>
                 <PauseIcon />
               </IconButton>
             ) : (
-              <IconButton onClick={handlePlay} size="small" title="Play">
+              <IconButton onClick={handlePlay} size="small" title="Play" className={classes.playButton}>
                 <PlayArrowIcon />
               </IconButton>
             )}
-            <IconButton onClick={handleNext} size="small" title="Next">
+            <IconButton onClick={handleNext} size="small" title="Next" className={classes.controlButton}>
               <SkipNextIcon />
             </IconButton>
-            <IconButton onClick={handleStop} size="small" title="Stop">
+            <IconButton onClick={handleStop} size="small" title="Stop" className={classes.stopButton}>
               <StopIcon />
             </IconButton>
           </Box>
@@ -411,7 +526,7 @@ export const SonosMiniPlayer = () => {
 
           {/* Volume Control */}
           <Box className={classes.volumeControl}>
-            <VolumeOffIcon fontSize="small" style={{ opacity: 0.5 }} />
+            <VolumeOffIcon className={classes.volumeIcon} />
             <Slider
               className={classes.volumeSlider}
               value={volume}
@@ -420,12 +535,12 @@ export const SonosMiniPlayer = () => {
               max={100}
               size="small"
             />
-            <VolumeUpIcon fontSize="small" style={{ opacity: 0.5 }} />
+            <VolumeUpIcon className={classes.volumeIcon} />
           </Box>
 
           {/* Close Button */}
-          <IconButton onClick={handleClose} size="small">
-            <CloseIcon fontSize="small" />
+          <IconButton onClick={handleClose} size="small" className={classes.closeButton}>
+            <CloseIcon />
           </IconButton>
         </Box>
       </Paper>

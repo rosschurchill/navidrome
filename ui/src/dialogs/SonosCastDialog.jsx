@@ -25,7 +25,7 @@ import VolumeUpIcon from '@material-ui/icons/VolumeUp'
 import VolumeOffIcon from '@material-ui/icons/VolumeOff'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import PlayArrowIcon from '@material-ui/icons/PlayArrow'
-import { closeSonosCastDialog } from '../actions'
+import { closeSonosCastDialog, setSonosDevice } from '../actions'
 import httpClient from '../dataProvider/httpClient'
 
 const useStyles = makeStyles((theme) => ({
@@ -144,6 +144,8 @@ export const SonosCastDialog = () => {
         },
       )
       console.log('Cast response', response)
+      // Set the active Sonos device in Redux so mini player tracks it
+      dispatch(setSonosDevice(selectedDevice))
       notify(
         translate('message.sonosCastSuccess', {
           room: selectedDevice.roomName,
@@ -216,7 +218,7 @@ export const SonosCastDialog = () => {
       <DialogTitle id="sonos-cast-dialog">
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <span>
-            {translate('message.castToSonos', {
+            {translate('message.cast', {
               name: name || translate(`resources.${resource}.name`, { smart_count: selectedIds?.length }),
               smart_count: selectedIds?.length,
             })}

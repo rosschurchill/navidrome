@@ -47,6 +47,24 @@ func (a *AVTransport) SetAVTransportURI(ctx context.Context, device *SonosDevice
 	return nil
 }
 
+// SetNextAVTransportURI sets the next track for gapless playback
+func (a *AVTransport) SetNextAVTransportURI(ctx context.Context, device *SonosDevice, uri string, metadata string) error {
+	action := SetNextAVTransportURIAction{
+		XmlnsU:          AVTransportURN,
+		InstanceID:      0,
+		NextURI:         uri,
+		NextURIMetaData: metadata,
+	}
+
+	_, err := a.sendAction(ctx, device, "SetNextAVTransportURI", action)
+	if err != nil {
+		return fmt.Errorf("SetNextAVTransportURI failed: %w", err)
+	}
+
+	log.Debug(ctx, "Set next transport URI", "device", device.RoomName, "uri", uri)
+	return nil
+}
+
 // Play starts or resumes playback
 func (a *AVTransport) Play(ctx context.Context, device *SonosDevice) error {
 	action := PlayAction{
@@ -405,7 +423,8 @@ func extractSOAPResponse(body []byte, v interface{}) error {
 // BuildDIDLMetadata creates DIDL-Lite metadata for a track
 // Uses musicTrack format for discrete file playback
 // The streamURI and mimeType are REQUIRED for Sonos to understand the content
-func BuildDIDLMetadata(id, title, artist, album, albumArtURL, streamURI, mimeType string) string {
+// durationSecs is the track duration in seconds (0 to omit)
+func BuildDIDLMetadata(id, title, artist, album, albumArtURL, streamURI, mimeType string, durationSecs float32) string {
 	// Build metadata with proper artist/album info for discrete tracks
 	var albumArtElement string
 	if albumArtURL != "" {
@@ -429,8 +448,16 @@ func BuildDIDLMetadata(id, title, artist, album, albumArtURL, streamURI, mimeTyp
 
 	// The <res> element is CRITICAL - it tells Sonos the protocol and MIME type
 	// Without it, Sonos returns error 714 (Illegal MIME-Type)
+	// Include duration attribute if provided (format: H:MM:SS or H:MM:SS.mmm)
 	protocolInfo := fmt.Sprintf("http-get:*:%s:*", mimeType)
-	resElement := fmt.Sprintf("<res protocolInfo=\"%s\">%s</res>\n", protocolInfo, html.EscapeString(streamURI))
+	var durationAttr string
+	if durationSecs > 0 {
+		hours := int(durationSecs) / 3600
+		minutes := (int(durationSecs) % 3600) / 60
+		seconds := int(durationSecs) % 60
+		durationAttr = fmt.Sprintf(" duration=\"%d:%02d:%02d\"", hours, minutes, seconds)
+	}
+	resElement := fmt.Sprintf("<res protocolInfo=\"%s\"%s>%s</res>\n", protocolInfo, durationAttr, html.EscapeString(streamURI))
 
 	return fmt.Sprintf(`<DIDL-Lite xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/" xmlns="urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/">
 <item id="%s" parentID="0" restricted="true">

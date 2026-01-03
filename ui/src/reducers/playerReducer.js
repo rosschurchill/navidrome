@@ -10,6 +10,8 @@ import {
   PLAYER_SET_VOLUME,
   PLAYER_SYNC_QUEUE,
   PLAYER_SET_MODE,
+  PLAYER_SET_SONOS_ACTIVE,
+  PLAYER_SET_SONOS_DEVICE,
 } from '../actions'
 import config from '../config'
 
@@ -19,6 +21,8 @@ const initialState = {
   clear: false,
   volume: config.defaultUIVolume / 100,
   savedPlayIndex: 0,
+  sonosActive: false,
+  sonosDevice: null,
 }
 
 const pad = (value) => {
@@ -186,6 +190,20 @@ const reduceMode = (state, { data: { mode } }) => {
   }
 }
 
+const reduceSonosActive = (state, { data: { active } }) => {
+  return {
+    ...state,
+    sonosActive: active,
+  }
+}
+
+const reduceSonosDevice = (state, { data: { device } }) => {
+  return {
+    ...state,
+    sonosDevice: device,
+  }
+}
+
 export const playerReducer = (previousState = initialState, payload) => {
   const { type } = payload
   switch (type) {
@@ -207,6 +225,10 @@ export const playerReducer = (previousState = initialState, payload) => {
       return reduceCurrent(previousState, payload)
     case PLAYER_SET_MODE:
       return reduceMode(previousState, payload)
+    case PLAYER_SET_SONOS_ACTIVE:
+      return reduceSonosActive(previousState, payload)
+    case PLAYER_SET_SONOS_DEVICE:
+      return reduceSonosDevice(previousState, payload)
     default:
       return previousState
   }

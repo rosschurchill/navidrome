@@ -178,6 +178,14 @@ type SetAVTransportURIAction struct {
 	CurrentURIMetaData string   `xml:"CurrentURIMetaData"`
 }
 
+type SetNextAVTransportURIAction struct {
+	XMLName         xml.Name `xml:"u:SetNextAVTransportURI"`
+	XmlnsU          string   `xml:"xmlns:u,attr"`
+	InstanceID      int      `xml:"InstanceID"`
+	NextURI         string   `xml:"NextURI"`
+	NextURIMetaData string   `xml:"NextURIMetaData"`
+}
+
 type PlayAction struct {
 	XMLName    xml.Name `xml:"u:Play"`
 	XmlnsU     string   `xml:"xmlns:u,attr"`

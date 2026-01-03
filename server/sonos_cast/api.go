@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/go-chi/chi/v5"
@@ -386,7 +387,8 @@ func (a *API) castMedia(w http.ResponseWriter, r *http.Request) {
 	// Handle new format from UI (trackIds + resource)
 	if len(req.TrackIds) > 0 {
 		log.Info(ctx, "Casting tracks to Sonos", "count", len(req.TrackIds), "resource", req.Resource, "deviceID", deviceID)
-		// For now, cast just the first track (queue support TODO)
+
+		// Cast the first track and start playback
 		if err := a.castTrack(ctx, deviceID, req.TrackIds[0], user); err != nil {
 			log.Error(ctx, "Failed to cast track", err, "trackID", req.TrackIds[0], "deviceID", deviceID)
 			if err == ErrDeviceNotFound {
@@ -396,7 +398,21 @@ func (a *API) castMedia(w http.ResponseWriter, r *http.Request) {
 			}
 			return
 		}
-		a.sendJSON(w, http.StatusOK, map[string]string{"status": "casting"})
+
+		// If there are more tracks, set the second one as "next" for gapless playback
+		if len(req.TrackIds) > 1 {
+			if err := a.setNextTrack(ctx, deviceID, req.TrackIds[1], user); err != nil {
+				// Non-fatal - first track is already playing
+				log.Warn(ctx, "Failed to set next track", err, "trackID", req.TrackIds[1])
+			}
+
+			// Store remaining tracks in the device queue for future playback
+			if len(req.TrackIds) > 2 {
+				a.storeQueue(deviceID, req.TrackIds[2:], user)
+			}
+		}
+
+		a.sendJSON(w, http.StatusOK, map[string]string{"status": "casting", "queueSize": fmt.Sprintf("%d", len(req.TrackIds))})
 		return
 	}
 
@@ -484,6 +500,7 @@ func (a *API) castTrack(ctx context.Context, deviceID, trackID string, user mode
 
 	// Build DIDL metadata with stream URL and MIME type
 	// The <res> element with protocolInfo is REQUIRED by Sonos
+	// Include duration so Sonos can display track length correctly
 	metadata := a.sonosCast.BuildTrackMetadata(
 		track.ID,
 		track.Title,
@@ -492,8 +509,9 @@ func (a *API) castTrack(ctx context.Context, deviceID, trackID string, user mode
 		artURL,
 		streamURL,
 		mimeType,
+		track.Duration,
 	)
-	log.Debug(ctx, "Built DIDL metadata", "metadataLen", len(metadata), "mimeType", mimeType)
+	log.Debug(ctx, "Built DIDL metadata", "metadataLen", len(metadata), "mimeType", mimeType, "duration", track.Duration)
 
 	// Cast to device
 	log.Info(ctx, "Sending PlayURI to Sonos", "deviceID", deviceID, "track", track.Title)
@@ -566,4 +584,114 @@ func (a *API) sendJSON(w http.ResponseWriter, status int, data interface{}) {
 // sendError sends an error response
 func (a *API) sendError(w http.ResponseWriter, status int, message string) {
 	a.sendJSON(w, status, map[string]string{"error": message})
+}
+
+// DeviceQueue holds the pending tracks for a device
+type DeviceQueue struct {
+	TrackIds []string
+	User     model.User
+}
+
+// deviceQueues stores pending tracks per device (thread-safe access via sync.Map)
+var deviceQueues = &sync.Map{}
+
+// storeQueue stores remaining tracks for a device
+func (a *API) storeQueue(deviceID string, trackIds []string, user model.User) {
+	deviceQueues.Store(deviceID, &DeviceQueue{
+		TrackIds: trackIds,
+		User:     user,
+	})
+	log.Debug("Stored queue for device", "deviceID", deviceID, "tracks", len(trackIds))
+}
+
+// getNextFromQueue gets and removes the next track from a device's queue
+func (a *API) getNextFromQueue(deviceID string) (string, *model.User, bool) {
+	val, ok := deviceQueues.Load(deviceID)
+	if !ok {
+		return "", nil, false
+	}
+	queue := val.(*DeviceQueue)
+	if len(queue.TrackIds) == 0 {
+		deviceQueues.Delete(deviceID)
+		return "", nil, false
+	}
+
+	// Pop the first track
+	trackID := queue.TrackIds[0]
+	queue.TrackIds = queue.TrackIds[1:]
+
+	// If queue is now empty, remove it
+	if len(queue.TrackIds) == 0 {
+		deviceQueues.Delete(deviceID)
+	}
+
+	return trackID, &queue.User, true
+}
+
+// setNextTrack sets the next track for gapless playback
+func (a *API) setNextTrack(ctx context.Context, deviceID, trackID string, user model.User) error {
+	log.Debug(ctx, "Setting next track", "trackID", trackID, "deviceID", deviceID)
+
+	// Get track from database
+	mfRepo := a.ds.MediaFile(ctx)
+	track, err := mfRepo.Get(trackID)
+	if err != nil {
+		return fmt.Errorf("track not found: %w", err)
+	}
+
+	// Get full user with password for Subsonic auth
+	userRepo := a.ds.User(ctx)
+	fullUser, err := userRepo.FindByUsernameWithPassword(user.UserName)
+	if err != nil {
+		return fmt.Errorf("user not found: %w", err)
+	}
+
+	// Get the base URL for streaming
+	baseURL := a.sonosCast.GetStreamBaseURL()
+
+	// Check for hi-res audio
+	needsTranscode := track.SampleRate > 48000
+
+	// Build stream URL
+	streamURL := buildStreamURL(baseURL, trackID, fullUser, needsTranscode)
+
+	// Build album art URL
+	artURL := ""
+	if track.HasCoverArt {
+		artURL = buildCoverArtURL(baseURL, track.AlbumID, fullUser)
+	}
+
+	// Get MIME type
+	mimeType := track.ContentType()
+	if mimeType == "" {
+		mimeType = "audio/flac"
+	}
+
+	// Build DIDL metadata
+	metadata := a.sonosCast.BuildTrackMetadata(
+		track.ID,
+		track.Title,
+		track.Artist,
+		track.Album,
+		artURL,
+		streamURL,
+		mimeType,
+		track.Duration,
+	)
+
+	// Get device and coordinator
+	device, ok := a.sonosCast.GetDevice(deviceID)
+	if !ok {
+		return ErrDeviceNotFound
+	}
+
+	// Use the device directly - the transport layer handles coordinator logic
+	// Set next URI for gapless playback
+	err = a.sonosCast.transport.SetNextAVTransportURI(ctx, device, streamURL, metadata)
+	if err != nil {
+		return err
+	}
+
+	log.Info(ctx, "Set next track for gapless playback", "deviceID", deviceID, "track", track.Title)
+	return nil
 }

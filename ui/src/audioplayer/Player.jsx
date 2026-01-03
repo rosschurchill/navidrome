@@ -49,6 +49,7 @@ const Player = () => {
     )
 
   const { authenticated } = useAuthState()
+  const sonosActive = playerState.sonosActive || false
   const visible = authenticated && playerState.queue.length > 0
   const isRadio = playerState.current?.isRadio || false
   const classes = useStyle({
@@ -292,6 +293,11 @@ const Player = () => {
       audioInstance.volume = 1
     }
   }, [isMobilePlayer, audioInstance])
+
+  // Hide completely when Sonos is playing
+  if (sonosActive) {
+    return null
+  }
 
   return (
     <ThemeProvider theme={createMuiTheme(theme)}>

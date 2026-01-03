@@ -119,9 +119,9 @@ export const SongContextMenu = ({
           ),
         ),
     },
-    castToSonos: {
+    cast: {
       enabled: config.enableSonosCast,
-      label: translate('resources.song.actions.castToSonos'),
+      label: translate('resources.song.actions.cast'),
       action: (record) =>
         dispatch(
           openSonosCastDialog({

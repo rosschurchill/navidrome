@@ -1,12 +1,14 @@
 import React, { Fragment, useEffect } from 'react'
 import { useUnselectAll } from 'react-admin'
-import { addTracks, playNext, playTracks } from '../actions'
+import { addTracks, playNext, playTracks, openSonosCastDialog } from '../actions'
 import { RiPlayList2Fill, RiPlayListAddFill } from 'react-icons/ri'
 import PlayArrowIcon from '@material-ui/icons/PlayArrow'
+import SpeakerIcon from '@material-ui/icons/Speaker'
 import { BatchPlayButton } from './index'
 import { AddToPlaylistButton } from './AddToPlaylistButton'
 import { makeStyles } from '@material-ui/core/styles'
 import { BatchShareButton } from './BatchShareButton'
+import { BatchCastButton } from './BatchCastButton'
 import config from '../config'
 
 const useStyles = makeStyles((theme) => ({
@@ -46,6 +48,9 @@ export const SongBulkActions = (props) => {
       />
       {config.enableSharing && (
         <BatchShareButton {...props} className={classes.button} />
+      )}
+      {config.enableSonosCast && (
+        <BatchCastButton {...props} className={classes.button} />
       )}
       <AddToPlaylistButton {...props} className={classes.button} />
     </Fragment>

@@ -148,7 +148,7 @@ const PlaylistActions = ({ className, ids, data, record, ...rest }) => {
           {config.enableSonosCast && (
             <Button
               onClick={handleCast}
-              label={translate('resources.album.actions.castToSonos')}
+              label={translate('resources.album.actions.cast')}
             >
               <SpeakerIcon />
             </Button>

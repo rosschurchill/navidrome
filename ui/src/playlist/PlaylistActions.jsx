@@ -15,6 +15,7 @@ import CloudDownloadOutlinedIcon from '@material-ui/icons/CloudDownloadOutlined'
 import { RiPlayListAddFill, RiPlayList2Fill } from 'react-icons/ri'
 import QueueMusicIcon from '@material-ui/icons/QueueMusic'
 import ShareIcon from '@material-ui/icons/Share'
+import SpeakerIcon from '@material-ui/icons/Speaker'
 import { httpClient } from '../dataProvider'
 import {
   playNext,
@@ -24,6 +25,7 @@ import {
   openDownloadMenu,
   DOWNLOAD_MENU_PLAY,
   openShareMenu,
+  openSonosCastDialog,
 } from '../actions'
 import { M3U_MIME_TYPE, REST_URL } from '../consts'
 import PropTypes from 'prop-types'
@@ -90,6 +92,28 @@ const PlaylistActions = ({ className, ids, data, record, ...rest }) => {
     dispatch(openShareMenu([record.id], 'playlist', record.name))
   }, [dispatch, record])
 
+  const handleCast = React.useCallback(() => {
+    if (ids?.length === record.songCount) {
+      const selectedIds = ids.filter((id) => !data[id]?.missing)
+      dispatch(openSonosCastDialog({ selectedIds, resource: 'playlist', name: record.name }))
+      return
+    }
+
+    dataProvider
+      .getList('playlistTrack', {
+        pagination: { page: 1, perPage: 0 },
+        sort: { field: 'id', order: 'ASC' },
+        filter: { playlist_id: record.id },
+      })
+      .then((res) => {
+        const selectedIds = res.data.filter((t) => !t.missing).map((t) => t.id)
+        dispatch(openSonosCastDialog({ selectedIds, resource: 'playlist', name: record.name }))
+      })
+      .catch(() => {
+        notify('ra.page.error', 'warning')
+      })
+  }, [dataProvider, dispatch, record, data, ids, notify])
+
   const handleDownload = React.useCallback(() => {
     dispatch(openDownloadMenu(record, DOWNLOAD_MENU_PLAY))
   }, [dispatch, record])
@@ -121,6 +145,14 @@ const PlaylistActions = ({ className, ids, data, record, ...rest }) => {
           >
             <PlayArrowIcon />
           </Button>
+          {config.enableSonosCast && (
+            <Button
+              onClick={handleCast}
+              label={translate('resources.album.actions.castToSonos')}
+            >
+              <SpeakerIcon />
+            </Button>
+          )}
           <Button
             onClick={handleShuffle}
             label={translate('resources.album.actions.shuffle')}

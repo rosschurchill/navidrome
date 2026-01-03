@@ -17,6 +17,7 @@ import radio from './radio'
 import share from './share'
 import library from './library'
 import { Player } from './audioplayer'
+import { SonosMiniPlayer } from './common/SonosMiniPlayer'
 import customRoutes from './routes'
 import {
   libraryReducer,
@@ -33,6 +34,7 @@ import {
   downloadMenuDialogReducer,
   shareDialogReducer,
   splitAlbumsDialogReducer,
+  sonosCastDialogReducer,
 } from './reducers'
 import createAdminStore from './store/createAdminStore'
 import { i18nProvider } from './i18n'
@@ -70,6 +72,7 @@ const adminStore = createAdminStore({
     saveQueueDialog: saveQueueDialogReducer,
     shareDialog: shareDialogReducer,
     splitAlbumsDialog: splitAlbumsDialogReducer,
+    sonosCastDialog: sonosCastDialogReducer,
     activity: activityReducer,
     settings: settingsReducer,
     replayGain: replayGainReducer,
@@ -150,6 +153,7 @@ const Admin = (props) => {
         <Resource name="insights" />,
         <Resource name="config" />,
         <Player />,
+        config.enableSonosCast && <SonosMiniPlayer />,
       ]}
     </RAAdmin>
   )

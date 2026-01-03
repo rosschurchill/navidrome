@@ -20,6 +20,7 @@ import {
   DOWNLOAD_MENU_ALBUM,
   DOWNLOAD_MENU_ARTIST,
   openShareMenu,
+  openSonosCastDialog,
 } from '../actions'
 import { LoveButton } from './LoveButton'
 import config from '../config'
@@ -110,6 +111,19 @@ const ContextMenu = ({
           dispatch(openShareMenu([record.id], resource, record.name)),
       },
     }),
+    castToSonos: {
+      enabled: config.enableSonosCast,
+      needData: true,
+      label: translate('resources.album.actions.castToSonos'),
+      action: (data, ids) =>
+        dispatch(
+          openSonosCastDialog({
+            selectedIds: ids,
+            resource: resource,
+            name: record.name,
+          }),
+        ),
+    },
     download: {
       enabled: config.enableDownloads && record.size,
       needData: false,

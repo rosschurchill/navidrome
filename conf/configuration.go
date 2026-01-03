@@ -103,6 +103,7 @@ type configOptions struct {
 	Deezer                          deezerOptions       `json:",omitzero"`
 	ListenBrainz                    listenBrainzOptions `json:",omitzero"`
 	DLNA                            dlnaOptions         `json:",omitzero"`
+	SonosCast                       sonosCastOptions    `json:",omitzero"`
 	Fingerprint                     fingerprintOptions  `json:",omitzero"`
 	EnableScrobbleHistory           bool
 	Tags                            map[string]TagConf `json:",omitempty"`
@@ -204,6 +205,12 @@ type dlnaOptions struct {
 	ServerName       string
 	Interface        string
 	TranscodeProfile string
+}
+
+type sonosCastOptions struct {
+	Enabled           bool
+	DiscoveryInterval time.Duration
+	StreamFormat      string
 }
 
 type httpHeaderOptions struct {
@@ -643,6 +650,9 @@ func setViperDefaults() {
 	viper.SetDefault("dlna.servername", "Navidrome")
 	viper.SetDefault("dlna.interface", "")
 	viper.SetDefault("dlna.transcodeprofile", "auto")
+	viper.SetDefault("sonoscast.enabled", false)
+	viper.SetDefault("sonoscast.discoveryinterval", 5*time.Minute)
+	viper.SetDefault("sonoscast.streamformat", "flac")
 	viper.SetDefault("fingerprint.enabled", false)
 	viper.SetDefault("fingerprint.acoustidapikey", "")
 	viper.SetDefault("fingerprint.fpcalcpath", "")

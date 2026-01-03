@@ -97,3 +97,18 @@ export const openSplitAlbumsDialog = () => ({
 export const closeSplitAlbumsDialog = () => ({
   type: SPLIT_ALBUMS_CLOSE,
 })
+
+// Sonos Cast actions
+export const SONOS_CAST_OPEN = 'SONOS_CAST_OPEN'
+export const SONOS_CAST_CLOSE = 'SONOS_CAST_CLOSE'
+
+export const openSonosCastDialog = ({ selectedIds, resource, name }) => ({
+  type: SONOS_CAST_OPEN,
+  selectedIds,
+  resource,
+  name,
+})
+
+export const closeSonosCastDialog = () => ({
+  type: SONOS_CAST_CLOSE,
+})

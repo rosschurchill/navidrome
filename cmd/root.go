@@ -83,6 +83,7 @@ func runNavidrome(ctx context.Context) {
 	g.Go(startInsightsCollector(ctx))
 	g.Go(scheduleDBOptimizer(ctx))
 	g.Go(startPluginManager(ctx))
+	g.Go(startSonosCast(ctx))
 	g.Go(runInitialScan(ctx))
 	if conf.Server.Scanner.Enabled {
 		g.Go(startScanWatcher(ctx))
@@ -130,6 +131,9 @@ func startServer(ctx context.Context) func() error {
 		}
 		if strings.HasPrefix(conf.Server.UILoginBackgroundURL, "/") {
 			a.MountRouter("Background images", conf.Server.UILoginBackgroundURL, backgrounds.NewHandler())
+		}
+		if conf.Server.SonosCast.Enabled {
+			a.MountRouter("Sonos Cast API", consts.URLPathSonosCast, CreateSonosCastRouter())
 		}
 		return a.Run(ctx, conf.Server.Address, conf.Server.Port, conf.Server.TLSCert, conf.Server.TLSKey)
 	}
@@ -340,6 +344,19 @@ func startPluginManager(ctx context.Context) func() error {
 		manager.ScanPlugins()
 
 		return nil
+	}
+}
+
+// startSonosCast starts the Sonos Cast service for speaker discovery
+func startSonosCast(ctx context.Context) func() error {
+	return func() error {
+		if !conf.Server.SonosCast.Enabled {
+			log.Debug("Sonos Cast is DISABLED")
+			return nil
+		}
+		log.Info(ctx, "Starting Sonos Cast service")
+		sonosCast := GetSonosCast()
+		return sonosCast.Start(ctx)
 	}
 }
 

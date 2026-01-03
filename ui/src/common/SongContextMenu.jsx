@@ -21,6 +21,7 @@ import {
   openDownloadMenu,
   DOWNLOAD_MENU_SONG,
   openShareMenu,
+  openSonosCastDialog,
 } from '../actions'
 import { LoveButton } from './LoveButton'
 import config from '../config'
@@ -116,6 +117,18 @@ export const SongContextMenu = ({
             'song',
             record.title,
           ),
+        ),
+    },
+    castToSonos: {
+      enabled: config.enableSonosCast,
+      label: translate('resources.song.actions.castToSonos'),
+      action: (record) =>
+        dispatch(
+          openSonosCastDialog({
+            selectedIds: [record.mediaFileId || record.id],
+            resource: 'song',
+            name: record.title,
+          }),
         ),
     },
     download: {

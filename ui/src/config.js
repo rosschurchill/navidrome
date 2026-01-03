@@ -38,6 +38,7 @@ const defaultConfig = {
   publicBaseUrl: '/share',
   separator: '/',
   enableInspect: true,
+  enableSonosCast: true, // Sonos Cast feature
 }
 
 let config

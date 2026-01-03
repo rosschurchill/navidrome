@@ -28,11 +28,13 @@ This is an enhanced fork of Navidrome with security hardening, improved metadata
 | **Enhanced Song Info Panel** | Done | `ui/src/common/SongInfo.jsx` - Comprehensive 4-tab info panel with file path, technical details, IDs, raw tags |
 | **Gapless Playback Metadata** | Phase 1 Done | `taglib_wrapper.cpp`, `taglib.go`, `model/mediafile.go` - Extracts encoder delay/padding from LAME header (MP3), iTunSMPB (M4A), and sample counts from FLAC/Opus/Vorbis |
 | **DLNA/UPnP Media Server** | Phase 1-2 Done | `server/dlna/*` - SSDP discovery, ContentDirectory browsing, streaming via Subsonic URLs |
+| **Sonos Cast** | Phase 1-2 Done | `server/sonos_cast/*` - SSDP discovery, AVTransport/RenderingControl, REST API for casting |
 
 ### Pending Features
 
 - DLNA/UPnP Phase 3-4 (transcoding, search, AVTransport)
 - Gapless playback API exposure (Phase 2) and web player (Phase 3)
+- Sonos Cast Phase 3-4 (UI components, queue casting, multi-room)
 - Audio fingerprinting (AcoustID/MusicBrainz)
 
 ---
@@ -180,6 +182,61 @@ Root (0)
 - Static SystemUpdateID (doesn't reflect library changes)
 
 **See Also**: `docs/plans/DLNA-HANDOVER.md` for complete implementation details
+
+### Sonos Cast (Phase 1-2)
+Cast music to Sonos speakers via local UPnP/AVTransport control. Unlike the SMAPI approach (which requires Sonos partner registration), this controls speakers directly over the local network.
+
+**Files Created**:
+- `server/sonos_cast/sonos_cast.go` - Main service, lifecycle management
+- `server/sonos_cast/discovery.go` - SSDP discovery for Sonos ZonePlayers
+- `server/sonos_cast/avtransport.go` - AVTransport SOAP client (play, pause, stop, seek)
+- `server/sonos_cast/rendering.go` - RenderingControl SOAP client (volume, mute)
+- `server/sonos_cast/types.go` - Device structs, SOAP action/response types
+- `server/sonos_cast/errors.go` - Error definitions
+- `server/sonos_cast/api.go` - REST API handlers
+
+**Files Modified**:
+- `conf/configuration.go` - Added `sonosCastOptions` struct and viper defaults
+- `consts/consts.go` - Added `URLPathSonosCast = "/api/cast/sonos"`
+- `cmd/wire_injectors.go` - Added `GetSonosCast()` and `CreateSonosCastRouter()`
+- `cmd/root.go` - Conditional router mounting + service startup
+
+**Configuration Options** (in `navidrome.toml` or environment variables):
+```toml
+[SonosCast]
+Enabled = true              # Enable Sonos Cast (default: false)
+DiscoveryInterval = "5m"    # How often to scan for speakers
+StreamFormat = "flac"       # Preferred streaming format
+```
+
+**Environment Variables**:
+- `ND_SONOSCAST_ENABLED=true`
+- `ND_SONOSCAST_DISCOVERYINTERVAL=5m`
+- `ND_SONOSCAST_STREAMFORMAT=flac`
+
+**REST API Endpoints** (when Sonos Cast is enabled):
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/cast/sonos/devices` | List discovered Sonos speakers |
+| `POST` | `/api/cast/sonos/devices/refresh` | Force re-discovery |
+| `GET` | `/api/cast/sonos/devices/{id}` | Get device details |
+| `GET` | `/api/cast/sonos/devices/{id}/state` | Get playback state |
+| `POST` | `/api/cast/sonos/devices/{id}/play` | Start playback |
+| `POST` | `/api/cast/sonos/devices/{id}/pause` | Pause playback |
+| `POST` | `/api/cast/sonos/devices/{id}/stop` | Stop playback |
+| `POST` | `/api/cast/sonos/devices/{id}/seek` | Seek to position |
+| `GET` | `/api/cast/sonos/devices/{id}/volume` | Get volume |
+| `POST` | `/api/cast/sonos/devices/{id}/volume` | Set volume |
+| `POST` | `/api/cast/sonos/devices/{id}/mute` | Set mute state |
+| `POST` | `/api/cast/sonos/devices/{id}/cast` | Cast track/album/playlist |
+
+**Pending (Phase 3-4)**:
+- Frontend UI components (speaker picker, mini player)
+- Album/playlist queue casting
+- Real-time state updates
+- Multi-room/group support
+
+**See Also**: `docs/plans/06-SONOS-CAST.md` for complete implementation plan
 
 ### Gapless Playback Metadata (Phase 1)
 Extracts gapless playback information from audio files for seamless track transitions.

@@ -15,6 +15,7 @@ import CloudDownloadOutlinedIcon from '@material-ui/icons/CloudDownloadOutlined'
 import { RiPlayListAddFill, RiPlayList2Fill } from 'react-icons/ri'
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd'
 import ShareIcon from '@material-ui/icons/Share'
+import SpeakerIcon from '@material-ui/icons/Speaker'
 import {
   playNext,
   addTracks,
@@ -24,6 +25,7 @@ import {
   openDownloadMenu,
   DOWNLOAD_MENU_ALBUM,
   openShareMenu,
+  openSonosCastDialog,
 } from '../actions'
 import { formatBytes } from '../utils'
 import config from '../config'
@@ -81,6 +83,11 @@ const AlbumActions = ({
     dispatch(openShareMenu([record.id], 'album', record.name))
   }, [dispatch, record])
 
+  const handleCast = React.useCallback(() => {
+    const selectedIds = ids.filter((id) => !data[id].missing)
+    dispatch(openSonosCastDialog({ selectedIds, resource: 'album', name: record.name }))
+  }, [dispatch, data, ids, record])
+
   const handleDownload = React.useCallback(() => {
     dispatch(openDownloadMenu(record, DOWNLOAD_MENU_ALBUM))
   }, [dispatch, record])
@@ -95,6 +102,14 @@ const AlbumActions = ({
           >
             <PlayArrowIcon />
           </AlbumButton>
+          {config.enableSonosCast && (
+            <AlbumButton
+              onClick={handleCast}
+              label={translate('resources.album.actions.castToSonos')}
+            >
+              <SpeakerIcon />
+            </AlbumButton>
+          )}
           <AlbumButton
             onClick={handleShuffle}
             label={translate('resources.album.actions.shuffle')}

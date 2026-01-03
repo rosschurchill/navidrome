@@ -19,6 +19,8 @@ import {
   SHARE_MENU_CLOSE,
   SPLIT_ALBUMS_OPEN,
   SPLIT_ALBUMS_CLOSE,
+  SONOS_CAST_OPEN,
+  SONOS_CAST_CLOSE,
 } from '../actions'
 
 export const shareDialogReducer = (
@@ -199,6 +201,38 @@ export const splitAlbumsDialogReducer = (
       return { ...previousState, open: true }
     case SPLIT_ALBUMS_CLOSE:
       return { ...previousState, open: false }
+    default:
+      return previousState
+  }
+}
+
+export const sonosCastDialogReducer = (
+  previousState = {
+    open: false,
+    selectedIds: [],
+    resource: '',
+    name: '',
+  },
+  payload,
+) => {
+  const { type, selectedIds, resource, name } = payload
+  switch (type) {
+    case SONOS_CAST_OPEN:
+      return {
+        ...previousState,
+        open: true,
+        selectedIds,
+        resource,
+        name,
+      }
+    case SONOS_CAST_CLOSE:
+      return {
+        ...previousState,
+        open: false,
+        selectedIds: [],
+        resource: '',
+        name: '',
+      }
     default:
       return previousState
   }

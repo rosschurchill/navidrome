@@ -46,7 +46,8 @@
         "shuffleAll": "Shuffle All",
         "download": "Download",
         "playNext": "Play Next",
-        "info": "Get Info"
+        "info": "Get Info",
+        "castToSonos": "Cast to Sonos"
       }
     },
     "album": {
@@ -88,7 +89,8 @@
         "shuffle": "Shuffle",
         "addToPlaylist": "Add to Playlist",
         "download": "Download",
-        "info": "Get Info"
+        "info": "Get Info",
+        "castToSonos": "Cast to Sonos"
       },
       "lists": {
         "all": "All",
@@ -525,7 +527,15 @@
     "shareSuccess": "URL copied to clipboard: %{url}",
     "shareFailure": "Error copying URL %{url} to clipboard",
     "downloadDialogTitle": "Download %{resource} '%{name}' (%{size})",
-    "downloadOriginalFormat": "Download in original format"
+    "downloadOriginalFormat": "Download in original format",
+    "castToSonos": "Cast %{name} to Sonos",
+    "refreshDevices": "Refresh Devices",
+    "noSonosDevices": "No Sonos Devices Found",
+    "noSonosDevicesHint": "Make sure your Sonos speakers are powered on and connected to the same network.",
+    "sonosCastSuccess": "Now playing on %{room}",
+    "sonosCastFailure": "Failed to cast: %{error}",
+    "castNow": "Cast",
+    "casting": "Casting..."
   },
   "menu": {
     "library": "Library",

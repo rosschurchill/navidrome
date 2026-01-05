@@ -28,6 +28,7 @@ docker-compose.yml
 binaries
 navidrome-*
 AGENTS.md
+CLAUDE.md
 .github/prompts
 .github/instructions
 .github/git-commit-instructions.md
